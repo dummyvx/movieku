@@ -13,7 +13,7 @@ To run this project, you can follow this following steps:
 1. Clone this repo using git
 2. Open terminal, and cd into `client` directory, and type `yarn` or `npm`.
 3. Open another terminal, and start your mongodb service. Or if you don't use Mongodb locally, you can skip this step.
-4. Open another terminal, and cd into `server` directory. Go to `/server` folder on this github project and read the `README.md` to run configure and run the server
+4. Open another terminal, and cd into `server` directory. Go to `/server` folder on this github project and read the `README.md` to configure and run the server
 
 ## That's It
 
