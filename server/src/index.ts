@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 import v1 from './routes/v1';
 import logger from './utils/logger';
 import requestLogger from './utils/requestLogger';
-import * as scheduleJob from './utils/scheduleJob';
+import startScheduleJob from './utils/scheduleJob';
 
 dotenv.config();
 
@@ -26,9 +26,10 @@ app.use('/api/v1', v1);
 
     try {
         let CONNECTION_URL = ''
-        const MODE = process.env.MODE!
+        const MODE = process.env.NODE_ENV!
+        const BASE_URL = process.env.BASE_URL!
 
-        if (MODE === 'development') {
+        if (MODE !== 'production') {
             CONNECTION_URL = process.env.MONGODB_URL_TEST!
         } else {
             CONNECTION_URL = process.env.MONGODB_URL!
@@ -37,8 +38,8 @@ app.use('/api/v1', v1);
         await mongoose.connect(CONNECTION_URL);
         logger.info(`🚀 DATABASE CONNECTED!`);
 
-        scheduleJob.default();
-        app.listen(PORT, () => logger.info(`🚀 SERVER SERVING AT http://localhost:${PORT}`))
+        startScheduleJob();
+        app.listen(PORT, () => logger.info(`🚀 SERVER SERVING AT ${BASE_URL}`))
     } catch (error: any) {
         logger.error(error.message, 'Index.ts');
     }

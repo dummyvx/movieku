@@ -79,7 +79,48 @@ Response:
 }
 ```
 
-#### 2. SCRAP ALL MOVIES
+#### 2. GET ONE MOVIE
+
+Request:
+
+- Method: GET
+- Endpoint: `/api/v1/movie/:slug/one`
+- Header:
+  - Content-Type: application/json
+  - Accept: application/json
+
+Response:
+<br>
+
+```json
+{
+  "data": {
+    "title": "string",
+    "genres": ["string"],
+    "release": "string",
+    "stars": ["string"],
+    "duration": "string",
+    "director": "string",
+    "country": "string",
+    "quality": "string",
+    "poster": "string",
+    "rating": "string",
+    "trailer": "string" | null,
+    "synopsis": "string",
+
+    "links": [{
+        "quality": "string",
+        "links": [{
+            "provider": "string",
+            "src": "string"
+        }]
+    }]
+  },
+  "error": null | "string"
+}
+```
+
+#### 3. SCRAP ALL MOVIES
 
 Request:
 
@@ -120,7 +161,7 @@ Response:
 }
 ```
 
-#### 3. SCRAP MOVIES WITH RANGE
+#### 4. SCRAP MOVIES WITH RANGE
 
 Request:
 
@@ -169,7 +210,7 @@ Response:
 }
 ```
 
-#### 4. UPDATE LIST OF MOVIES
+#### 5. UPDATE LIST OF MOVIES
 
 Request:
 
@@ -210,7 +251,7 @@ Response:
 }
 ```
 
-#### 5. SEARCH MOVIES
+#### 6. SEARCH MOVIES
 
 Request:
 
@@ -309,7 +350,51 @@ Response:
 }
 ```
 
-#### 2. GET ALL SERIES
+#### 2. GET ONE SERIES
+
+Request:
+
+- Method: GET
+- Endpoint: `/api/v1/series/:slug/one`
+- Header:
+  - Content-Type: application/json
+  - Accept: application/json
+
+Response:
+<br>
+
+```json
+{
+  "data": {
+      "title": "string",
+      "genres": ["string"],
+      "status": "string",
+      "release": "string" | undefined,
+      "stars": ["string"],
+      "duration": "string",
+      "country": "string",
+      "poster": "string",
+      "rating": "string",
+      "trailer": "string" | undefined,
+      "director": "string" | undefined,
+      "synopsis": "string",
+
+      "links": [{
+        "episode": "string",
+        "links": [{
+          "quality": "string",
+          "links": {
+            "provider": "string",
+            "src": "string"
+            }
+          }]
+      }]
+  },
+  "error": null | "string"
+}
+```
+
+#### 3. GET ALL SERIES
 
 Request:
 
@@ -353,7 +438,7 @@ Response:
 }
 ```
 
-#### 3. GET SERIES WITH RANGE
+#### 4. GET SERIES WITH RANGE
 
 Request:
 
@@ -405,7 +490,7 @@ Response:
 }
 ```
 
-#### 4. UPDATE LIST OF SERIES
+#### 5. UPDATE LIST OF SERIES
 
 Request:
 
@@ -451,7 +536,7 @@ Response:
 }
 ````
 
-#### 5. UPDATE SERIES STATUS
+#### 6. UPDATE SERIES STATUS
 
 Request:
 
@@ -497,7 +582,7 @@ Response:
 }
 ````
 
-#### 6. SEARCH SERIES
+#### 7. SEARCH SERIES
 
 Request:
 
@@ -551,7 +636,7 @@ Response:
 
 ## D. What's Next?
 
-Next, I'm gonna create the Frontend Web Application using Next.js to show all the DATAs
+Deploy!
 
 ## E. That's it
 

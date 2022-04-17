@@ -1,6 +1,6 @@
 <!-- Image -->
 
-![Movieku By NovqiGarrix](https://drive.google.com/uc?id=1E2JIH5Y-uOc7f7F39taM5pUxms4hgRjI)
+![Movieku By NovqiGarrix](https://drive.google.com/uc?id=1hysqls3q-FLDMyJ8g0UFgMWD68gE-7sF)
 
 # Movieku
 
