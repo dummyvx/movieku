@@ -1,0 +1,14 @@
+{
+    "series": {
+        "lastStopped": {
+            "page": 0,
+            "index": 0
+        }
+    },
+    "movies": {
+        "lastStopped": {
+            "page": 0,
+            "index": 0
+        }
+    }
+}
