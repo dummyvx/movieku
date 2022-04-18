@@ -9,12 +9,12 @@ import { CardComponent } from "./";
 
 const SeriesComponent: FunctionComponent = () => {
   const { series, addSeries } = useContext(SeriesContext);
-  if (!series) return <></>;
 
-  const [infoData, setInfoData] = useState(series.info);
+  const [infoData, setInfoData] = useState(series!.info);
 
   const getMoreData = () => {
-    getNextSeries(`${infoData.nextURL}&limit=32`)
+    const queried = infoData.nextURL.includes("&limit");
+    getNextSeries(`${infoData.nextURL}${queried ? "" : "&limit=32"}`)
       .then((newSeries) => {
         if (newSeries) {
           addSeries(newSeries.data);
@@ -26,6 +26,8 @@ const SeriesComponent: FunctionComponent = () => {
       })
       .catch((err) => console.error({ err }));
   };
+
+  if (!series) return <></>;
 
   return (
     <section about="newest-movies" className="mt-4">

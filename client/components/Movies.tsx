@@ -11,9 +11,8 @@ interface IMoviesComponent {}
 
 const MoviesComponent: FunctionComponent<IMoviesComponent> = () => {
   const { movies, addMovies } = useContext(MovieContext);
-  if (!movies) return <></>;
 
-  const [infoData, setInfoData] = useState(movies.info);
+  const [infoData, setInfoData] = useState(movies!.info);
 
   const getMoreData = () => {
     const queried = infoData.nextURL.includes("&");
@@ -29,6 +28,8 @@ const MoviesComponent: FunctionComponent<IMoviesComponent> = () => {
       })
       .catch((err) => console.error({ err }));
   };
+
+  if (!movies) return <></>;
 
   return (
     <section about="newest-movies" className="mt-4">

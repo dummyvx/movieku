@@ -6,7 +6,7 @@ import Head from "next/head";
 import { Header, SeriesComponent } from "../../components";
 import CommandBoxContextProvider from "../../contexts/CommandBoxContext";
 import SeriesContextProvider from "../../contexts/SeriesContext";
-import { APIResponse, Series } from "../../types";
+import { APIResponse, CommandBoxData, Series } from "../../types";
 
 interface ISeriesPage {
   series: APIResponse<Array<Series>>;
@@ -44,11 +44,23 @@ const SeriesPage: NextPage<ISeriesPage> = ({ series }) => {
 export async function getServerSideProps() {
   const SERVER_URL = `${process.env.SERVER_URL}/api/v1`;
 
-  const { data: series } = await axios.get(`${SERVER_URL}/series?limit=32`);
+  const { data: series }: { data: APIResponse<Array<Series>> } =
+    await axios.get(`${SERVER_URL}/series?limit=32`);
+  const cleanedData: Array<CommandBoxData> = series.data.map((series) => ({
+    duration: series.duration,
+    poster: series.poster,
+    rating: series.rating,
+    slug: series.slug,
+    title: series.title,
+    status: series.status,
+  }));
 
   return {
     props: {
-      series,
+      series: {
+        data: cleanedData,
+        info: series.info,
+      },
     },
   };
 }

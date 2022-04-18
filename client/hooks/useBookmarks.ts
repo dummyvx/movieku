@@ -47,7 +47,7 @@ const useBookmarks = ({ slug, toastState }: UseBookmarksType) => {
         return {
             existed: false
         }
-    }, []);
+    }, [slug]);
 
     const addBookmark = (): void => {
         const bookmark = localStorage.getItem('bookmarks');
@@ -121,13 +121,13 @@ const useBookmarks = ({ slug, toastState }: UseBookmarksType) => {
         removeToast();
     };
 
-    const onToastClose = () => {
+    const onToastClose = useCallback(() => {
         setToastInfo((prev) => ({
             ...prev,
             ["bookmarks"]: { ...prev["bookmarks"], status: false },
         }));
         return;
-    };
+    }, [setToastInfo]);
 
     useEffect(() => {
         const bookmark = localStorage.getItem('bookmarks');
@@ -135,7 +135,7 @@ const useBookmarks = ({ slug, toastState }: UseBookmarksType) => {
 
         const status = Boolean(prevBookmarks.length && prevBookmarks.find((item) => item === slug));
         setOnBookmark(status);
-    }, [router.asPath])
+    }, [router.asPath, slug])
 
     return {
         checkBookmark, addBookmark, removeBookmark, onBookmark, toogleBookmark, onToastClose

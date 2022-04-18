@@ -9,12 +9,11 @@ import { CardComponent } from "./";
 
 const BlurayComponent: FunctionComponent = () => {
   const { bluray, addBluray } = useContext(MovieContext);
-  if (!bluray) return <></>;
 
-  const [infoData, setInfoData] = useState(bluray.info);
+  const [infoData, setInfoData] = useState(bluray?.info);
 
   const getMoreData = () => {
-    getNextMovies(`${infoData.nextURL}&limit=32`)
+    getNextMovies(`${infoData?.nextURL}&limit=32`)
       .then((newMovies) => {
         if (newMovies) {
           addBluray(newMovies.data);
@@ -26,6 +25,8 @@ const BlurayComponent: FunctionComponent = () => {
       })
       .catch((err) => console.error({ err }));
   };
+
+  if (!bluray) return <></>;
 
   return (
     <section about="newest-movies" className="mt-4">

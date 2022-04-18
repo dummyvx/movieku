@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 import { Movie } from "../types";
 
@@ -14,13 +14,13 @@ const useMoviePageLogic = (movie: Movie) => {
 
     const title = movie.title.split("Film ")[1];
 
-    let duration: string = movie.duration.split(" min")[0];
+    const duration = useRef(movie.duration.split(" min")[0]);
     const dura = useMemo(() => {
         for (let index = 1; index <= 5; index++) {
-            const durationNum = Number(duration);
+            const durationNum = Number(duration.current);
             if (index < 2 && durationNum < 60) {
-                duration = `${duration} min`;
-                return duration;
+                duration.current = `${duration.current} min`;
+                return duration.current;
             }
 
             const minute = durationNum - 60;
@@ -28,7 +28,7 @@ const useMoviePageLogic = (movie: Movie) => {
                 return `${index}h ${minute}m`;
             }
         }
-    }, [duration]);
+    }, []);
 
     const copyToClipboard = (): void => {
         const URL = document.URL.split('#')[0];

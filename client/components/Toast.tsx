@@ -40,7 +40,7 @@ const Toast: FunctionComponent<IToast> = (props) => {
     }, 15000);
 
     return () => clearTimeout(timeout);
-  }, [show, isShow]);
+  }, [onClose]);
 
   const Icon: FunctionComponent = () =>
     type === "info" ? (

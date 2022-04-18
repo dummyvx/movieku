@@ -9,9 +9,8 @@ import { CardComponent } from "./";
 
 const OngoingComponent: FunctionComponent = () => {
   const { ongoing, addOngoing } = useContext(SeriesContext);
-  if (!ongoing) return <></>;
 
-  const [infoData, setInfoData] = useState(ongoing.info);
+  const [infoData, setInfoData] = useState(ongoing!.info);
 
   const getMoreData = () => {
     getNextSeries(`${infoData.nextURL}&limit=32`)
@@ -26,6 +25,8 @@ const OngoingComponent: FunctionComponent = () => {
       })
       .catch((err) => console.error({ err }));
   };
+
+  if (!ongoing) return <></>;
 
   return (
     <section about="newest-movies" className="mt-4">

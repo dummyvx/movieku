@@ -1,4 +1,10 @@
-import { FunctionComponent, useState, useContext, useEffect } from "react";
+import {
+  FunctionComponent,
+  useState,
+  useContext,
+  useEffect,
+  useRef,
+} from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -79,16 +85,16 @@ const Header: FunctionComponent<IHeader> = () => {
   const [searchedData, setSearchedData] = useState<Array<CommandBoxData>>([]);
   const [isSearchLoading, setIsSearchLoading] = useState(false);
 
-  let query = useDebounce(keyword, 300);
+  let query = useRef(useDebounce(keyword, 300));
 
   useEffect(() => {
     setIsSearchLoading(true);
-    if (query) {
-      search(query)
+    if (query.current) {
+      search(query.current)
         .then((data) => {
           if (data) {
             setSearchedData(data);
-            query = "";
+            query.current = "";
             return;
           }
           setIsSearchLoading(false);
@@ -108,7 +114,7 @@ const Header: FunctionComponent<IHeader> = () => {
         setKeyword={setKeyWord}
         keyword={keyword}
         isLoading={isSearchLoading}
-        debounceValue={query}
+        debounceValue={query.current}
         setSearchedData={setSearchedData}
       />
       <header className="fixed bg-[#0d0d0f] top-0 w-full left-0 z-40 h-24 flex items-center border-b border-b-gray-800/70 px-4 sm:px-10 md:px-14">

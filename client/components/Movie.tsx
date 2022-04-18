@@ -11,7 +11,6 @@ import { Toast } from "./";
 
 const MovieComponent: FunctionComponent = () => {
   const { movie } = useContext(MovieContext);
-  if (!movie) return <></>;
 
   const toastState = useState<ToastInfoType>({
     ["bookmarks"]: {
@@ -28,9 +27,9 @@ const MovieComponent: FunctionComponent = () => {
     year,
     copiedToClipboard: onClipboard,
     copyToClipboard,
-  } = useMoviePageLogic(movie);
+  } = useMoviePageLogic(movie!);
   const { onBookmark, onToastClose, toogleBookmark } = useBookmarks({
-    slug: movie.slug,
+    slug: movie!.slug,
     toastState,
   });
 
@@ -70,6 +69,8 @@ const MovieComponent: FunctionComponent = () => {
     });
   };
 
+  if (!movie) return <></>;
+
   return (
     <Fragment>
       {toastInfo && (
@@ -96,6 +97,7 @@ const MovieComponent: FunctionComponent = () => {
                 src={movie.poster}
                 objectFit="cover"
                 className="rounded-lg"
+                alt={movie.title}
               />
             </div>
 

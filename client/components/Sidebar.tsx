@@ -36,14 +36,17 @@ const Sidebar: FunctionComponent<ISidebar> = (props) => {
     }));
   };
 
-  const handleClickOutside = useCallback((ev: MouseEvent) => {
-    if (
-      sidebarRef.current &&
-      !sidebarRef.current?.contains(ev.target as Node)
-    ) {
-      setSidebar(false);
-    }
-  }, []);
+  const handleClickOutside = useCallback(
+    (ev: MouseEvent) => {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current?.contains(ev.target as Node)
+      ) {
+        setSidebar(false);
+      }
+    },
+    [setSidebar]
+  );
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);

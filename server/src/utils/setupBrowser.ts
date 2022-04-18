@@ -2,7 +2,10 @@ import { Browser, LaunchOptions, Page } from "puppeteer";
 import puppeteer from 'puppeteer';
 
 async function setupBrowser(options?: LaunchOptions): Promise<{ page: Page; browser: Browser }> {
-    const browser = await puppeteer.launch({ ...options, headless: true });
+    const browser = await puppeteer.launch({
+        ...options, headless: true,
+        args: ["--no-sandbox", "--disable-setupid-sandbox"]
+    });
 
     const page = (await browser.pages())[0];
 

@@ -13,7 +13,6 @@ import { SeriesContext } from "../contexts/SeriesContext";
 
 const OneSeriesComponent: FunctionComponent = () => {
   const { seri } = useContext(SeriesContext);
-  if (!seri) return <></>;
 
   const router = useRouter();
   const URL = router.asPath;
@@ -33,9 +32,9 @@ const OneSeriesComponent: FunctionComponent = () => {
     year,
     copiedToClipboard: onClipboard,
     copyToClipboard,
-  } = useOneSeriesPageLogic(seri);
+  } = useOneSeriesPageLogic(seri!);
   const { onBookmark, onToastClose, toogleBookmark } = useBookmarks({
-    slug: seri.slug,
+    slug: seri!.slug,
     toastState,
   });
 
@@ -78,6 +77,8 @@ const OneSeriesComponent: FunctionComponent = () => {
     });
   };
 
+  if (!seri) return <></>;
+
   return (
     <Fragment>
       {toastInfo && (
@@ -104,6 +105,7 @@ const OneSeriesComponent: FunctionComponent = () => {
                 src={seri.poster}
                 objectFit="cover"
                 className="rounded-lg"
+                alt={seri.title}
               />
 
               <div

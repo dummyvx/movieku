@@ -35,17 +35,20 @@ const CommandBox: FunctionComponent<ICommandBox> = (props) => {
 
   const router = useRouter();
 
-  const onKeydown = useCallback((ev: KeyboardEvent) => {
-    if (ev.key === "/" && (ev.metaKey || ev.ctrlKey)) {
-      setIsOpen((prev) => !prev);
-      setKeyword("");
-    }
-  }, []);
+  const onKeydown = useCallback(
+    (ev: KeyboardEvent) => {
+      if (ev.key === "/" && (ev.metaKey || ev.ctrlKey)) {
+        setIsOpen((prev) => !prev);
+        setKeyword("");
+      }
+    },
+    [setIsOpen, setKeyword]
+  );
 
   useEffect(() => {
     document.addEventListener("keydown", onKeydown);
     return () => document.removeEventListener("keydown", onKeydown);
-  }, []);
+  }, [onKeydown]);
 
   return (
     <Dialog

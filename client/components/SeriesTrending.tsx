@@ -9,9 +9,8 @@ import { CardComponent } from "./";
 
 const SeriesTrendingComponent: FunctionComponent = () => {
   const { trendingSeries, addTrendingSeries } = useContext(SeriesContext);
-  if (!trendingSeries) return <></>;
 
-  const [infoData, setInfoData] = useState(trendingSeries.info);
+  const [infoData, setInfoData] = useState(trendingSeries!.info);
 
   const getMoreData = () => {
     getNextSeries(`${infoData.nextURL}&limit=32`)
@@ -26,6 +25,8 @@ const SeriesTrendingComponent: FunctionComponent = () => {
       })
       .catch((err) => console.error({ err }));
   };
+
+  if (!trendingSeries) return <></>;
 
   return (
     <section about="newest-movies" className="mt-4">

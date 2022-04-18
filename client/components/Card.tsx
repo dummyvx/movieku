@@ -28,6 +28,7 @@ const CardComponent: FunctionComponent<ICardComponent> = (props) => {
           objectFit="cover"
           loading="lazy"
           className="rounded-lg"
+          alt={cardLabel}
         />
       </div>
       <div className="absolute w-6 md:w-8 bg-red-200/80 top-3 py-2 flex items-center flex-col space-y-2 rounded-r-xl opacity-90">

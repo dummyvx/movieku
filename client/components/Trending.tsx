@@ -9,9 +9,8 @@ import { CardComponent } from "./";
 
 const TrendingsComponent: FunctionComponent = () => {
   const { trendingMovies, addTrendingMovies } = useContext(MovieContext);
-  if (!trendingMovies) return <></>;
 
-  const [infoData, setInfoData] = useState(trendingMovies.info);
+  const [infoData, setInfoData] = useState(trendingMovies!.info);
 
   const getMoreData = () => {
     getNextMovies(`${infoData.nextURL}&limit=32`)
@@ -26,6 +25,8 @@ const TrendingsComponent: FunctionComponent = () => {
       })
       .catch((err) => console.error({ err }));
   };
+
+  if (!trendingMovies) return <></>;
 
   return (
     <section about="popular-movies" className="mt-4">
