@@ -85,16 +85,22 @@ const Header: FunctionComponent<IHeader> = () => {
   const [searchedData, setSearchedData] = useState<Array<CommandBoxData>>([]);
   const [isSearchLoading, setIsSearchLoading] = useState(false);
 
-  let query = useRef(useDebounce(keyword, 300));
+  const debounceValue = useDebounce(keyword, 300);
+
+  const [query, setQuery] = useState("");
+
+  useEffect(() => {
+    setQuery(debounceValue);
+  }, [debounceValue]);
 
   useEffect(() => {
     setIsSearchLoading(true);
-    if (query.current) {
-      search(query.current)
+    if (query) {
+      search(query)
         .then((data) => {
           if (data) {
             setSearchedData(data);
-            query.current = "";
+            setQuery("");
             return;
           }
           setIsSearchLoading(false);
@@ -114,7 +120,7 @@ const Header: FunctionComponent<IHeader> = () => {
         setKeyword={setKeyWord}
         keyword={keyword}
         isLoading={isSearchLoading}
-        debounceValue={query.current}
+        debounceValue={query}
         setSearchedData={setSearchedData}
       />
       <header className="fixed bg-[#0d0d0f] top-0 w-full left-0 z-40 h-24 flex items-center border-b border-b-gray-800/70 px-4 sm:px-10 md:px-14">
