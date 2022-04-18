@@ -19,6 +19,7 @@ const CompletedComponent: FunctionComponent = () => {
         if (newSeries) {
           addCompleted(newSeries.data);
           setInfoData((prev) => ({ ...prev, ...newSeries.info }));
+          return;
         }
 
         console.error(`Error due to no new series!`);

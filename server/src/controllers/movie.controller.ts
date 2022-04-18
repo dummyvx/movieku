@@ -46,9 +46,9 @@ const paginateData = async (req: Request, res: Response, queries: any, limit: nu
         return res.status(404).send(data);
     }
 
-    const reqQuery = req.url.split('&')[1]
+    const query = req.url.split('&')[1]
 
-    const nextURL = `${BASE_URL}/api/v1/movie?page=${currentPage + 1}&${reqQuery ?? ''}`;
+    const nextURL = `${BASE_URL}api/v1/movie?page=${currentPage + 1}${query ? `&${query}` : ''}`;
     const nextUrl = currentPage >= allPage ? null : nextURL;
 
     const response = {

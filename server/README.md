@@ -42,6 +42,14 @@ Request:
 - Header:
   - Content-Type: application/json
   - Accept: application/json
+- Query Samples:
+
+```json
+{
+  "quality": "Bluray",
+  "based": "trending"
+}
+```
 
 Response:
 <br>
@@ -310,6 +318,14 @@ Request:
 - Header:
   - Content-Type: application/json
   - Accept: application/json
+- Query Samples:
+
+```json
+{
+  "status": "Ongoing",
+  "based": "newest"
+}
+```
 
 Response:
 <br>

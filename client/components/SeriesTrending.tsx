@@ -19,6 +19,7 @@ const SeriesTrendingComponent: FunctionComponent = () => {
         if (newSeries) {
           addTrendingSeries(newSeries.data);
           setInfoData((prev) => ({ ...prev, ...newSeries.info }));
+          return;
         }
 
         console.error(`Error due to no new series!`);

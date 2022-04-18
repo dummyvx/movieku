@@ -16,11 +16,13 @@ const MoviesComponent: FunctionComponent<IMoviesComponent> = () => {
   const [infoData, setInfoData] = useState(movies.info);
 
   const getMoreData = () => {
-    getNextMovies(`${infoData.nextURL}&limit=32`)
+    const queried = infoData.nextURL.includes("&");
+    getNextMovies(`${infoData.nextURL}${queried ? "" : "&limit=32"}`)
       .then((newMovies) => {
         if (newMovies) {
           addMovies(newMovies.data);
           setInfoData((prev) => ({ ...prev, ...newMovies.info }));
+          return;
         }
 
         console.error(`Error due to no new movies!`);

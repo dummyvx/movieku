@@ -19,6 +19,7 @@ const TrendingsComponent: FunctionComponent = () => {
         if (newMovies) {
           addTrendingMovies(newMovies.data);
           setInfoData((prev) => ({ ...prev, ...newMovies.info }));
+          return;
         }
 
         console.error(`Error due to no new movies!`);
