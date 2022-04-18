@@ -12,10 +12,11 @@ import startScheduleJob from './utils/scheduleJob';
 dotenv.config();
 
 const PORT = process.env.PORT || 3001
+const CORS_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:3000"
 
 const app = express();
 
-app.use(cors({ origin: ["http://localhost:3000"] }));
+app.use(cors({ origin: [CORS_ORIGIN] }));
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }));
 app.use(helmet())
