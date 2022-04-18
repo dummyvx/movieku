@@ -6,7 +6,7 @@ import Head from "next/head";
 import { Header, TrendingsComponent } from "../../components";
 import CommandBoxContextProvider from "../../contexts/CommandBoxContext";
 import MovieContextProvider from "../../contexts/MovieContext";
-import { APIResponse, Movie } from "../../types";
+import { APIResponse, CommandBoxData, Movie } from "../../types";
 
 interface ITrendingPage {
   trendingMovies: APIResponse<Array<Movie>>;
@@ -44,13 +44,24 @@ const MoviesPage: NextPage<ITrendingPage> = ({ trendingMovies }) => {
 export async function getServerSideProps() {
   const SERVER_URL = `${process.env.SERVER_URL}/api/v1`;
 
-  const { data: trendingMovies } = await axios.get(
-    `${SERVER_URL}/movie?limit=32&based=trending`
+  const { data: trendingMovies }: { data: APIResponse<Array<Movie>> } =
+    await axios.get(`${SERVER_URL}/movie?limit=32&based=trending`);
+  const cleanedData: Array<CommandBoxData> = trendingMovies.data.map(
+    (movies) => ({
+      duration: movies.duration,
+      poster: movies.poster,
+      rating: movies.rating,
+      slug: movies.slug,
+      title: movies.title,
+    })
   );
 
   return {
     props: {
-      trendingMovies,
+      trendingMovies: {
+        data: cleanedData,
+        info: trendingMovies.info,
+      },
     },
   };
 }

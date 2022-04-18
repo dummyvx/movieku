@@ -1,5 +1,5 @@
 import { FunctionComponent, useContext } from "react";
-import { FireIcon } from "@heroicons/react/outline";
+import { CollectionIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 
 import { SeriesContext } from "../contexts/SeriesContext";
@@ -13,8 +13,8 @@ const NewestMovies: FunctionComponent = () => {
     <section about="newest-series" className="mt-4">
       <div className="flex items-center justify-between font-poppins">
         <div className="flex items-center space-x-3">
-          <FireIcon className="w-8 h-8 text-red-600" />
-          <h2 className="text-2xl text-red-500 font-medium tracking-wide ">
+          <CollectionIcon className="w-6 h-6 md:w-8 md:h-8 text-red-600" />
+          <h2 className="text-base md:text-2xl text-red-500 font-medium tracking-wide ">
             Latest Series
           </h2>
         </div>
@@ -26,7 +26,7 @@ const NewestMovies: FunctionComponent = () => {
         </Link>
       </div>
 
-      <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 items-center gap-2 md:gap-5 mt-5">
+      <div className="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-8 items-center gap-2 md:gap-5 mt-5">
         {series.data.map((movie, index) => {
           return (
             <Link href={`/series/${movie.slug}`} key={index}>

@@ -6,7 +6,7 @@ import Head from "next/head";
 import { Header, SeriesTrending } from "../../components";
 import CommandBoxContextProvider from "../../contexts/CommandBoxContext";
 import SeriesContextProvider from "../../contexts/SeriesContext";
-import { APIResponse, Series } from "../../types";
+import { APIResponse, CommandBoxData, Series } from "../../types";
 
 interface ITrendingSeriesPage {
   trendingSeries: APIResponse<Array<Series>>;
@@ -44,13 +44,24 @@ const SeriesPage: NextPage<ITrendingSeriesPage> = ({ trendingSeries }) => {
 export async function getServerSideProps() {
   const SERVER_URL = `${process.env.SERVER_URL}/api/v1`;
 
-  const { data: trendingSeries } = await axios.get(
-    `${SERVER_URL}/series?limit=32&based=trending`
+  const { data: trendingSeries }: { data: APIResponse<Array<Series>> } =
+    await axios.get(`${SERVER_URL}/series?limit=32&based=trending`);
+  const cleanedData: Array<CommandBoxData> = trendingSeries.data.map(
+    (series) => ({
+      duration: series.duration,
+      poster: series.poster,
+      rating: series.rating,
+      slug: series.slug,
+      title: series.title,
+      status: series.status,
+    })
   );
-
   return {
     props: {
-      trendingSeries,
+      trendingSeries: {
+        data: cleanedData,
+        info: trendingSeries.info,
+      },
     },
   };
 }

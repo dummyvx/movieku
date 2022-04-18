@@ -17,6 +17,8 @@ const CardComponent: FunctionComponent<ICardComponent> = (props) => {
       : Number(rating);
 
   const star = Math.round(starRaw / 2);
+  const titleRaw = cardLabel.split("Film ")[1];
+  const title = titleRaw.length < 30 ? titleRaw : `${titleRaw.slice(0, 30)}...`;
 
   return (
     <div className="rounded cursor-pointer transform transition-all group duration-100 hover:scale-105 relative">
@@ -48,8 +50,8 @@ const CardComponent: FunctionComponent<ICardComponent> = (props) => {
         </span>
       </div>
 
-      <h3 className="text-xs md:text-[13px] lg:text-[14px] text-gray-300 font-poppins mt-3 h-10 md:h-12 duration-150 transition group-hover:text-gray-50 group-hover:font-medium">
-        {cardLabel.split("Film ")[1]}
+      <h3 className="text-sm md:text-[13px] lg:text-[14px] text-gray-300 font-poppins mt-3 h-16 md:h-12 duration-150 transition group-hover:text-gray-50 group-hover:font-medium">
+        {title}
       </h3>
     </div>
   );

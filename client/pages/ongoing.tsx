@@ -6,7 +6,7 @@ import Head from "next/head";
 import { Header, OngoingComponent } from "../components";
 import CommandBoxContextProvider from "../contexts/CommandBoxContext";
 import SeriesContextProvider from "../contexts/SeriesContext";
-import { APIResponse, Series } from "../types";
+import { APIResponse, CommandBoxData, Series } from "../types";
 
 interface IOngoingPage {
   ongoing: APIResponse<Array<Series>>;
@@ -44,13 +44,24 @@ const CompletePage: NextPage<IOngoingPage> = ({ ongoing }) => {
 export async function getServerSideProps() {
   const SERVER_URL = `${process.env.SERVER_URL}/api/v1`;
 
-  const { data: ongoing } = await axios.get(
-    `${SERVER_URL}/series?limit=32&status=Ongoing`
-  );
+  const { data: ongoing }: { data: APIResponse<Array<Series>> } =
+    await axios.get(`${SERVER_URL}/series?limit=32&status=Ongoing`);
+
+  const cleanedData: Array<CommandBoxData> = ongoing.data.map((series) => ({
+    duration: series.duration,
+    poster: series.poster,
+    rating: series.rating,
+    slug: series.slug,
+    title: series.title,
+    status: series.status,
+  }));
 
   return {
     props: {
-      ongoing,
+      ongoing: {
+        data: cleanedData,
+        info: ongoing.info,
+      },
     },
   };
 }

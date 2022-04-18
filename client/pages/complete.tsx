@@ -6,7 +6,7 @@ import Head from "next/head";
 import { Header, CompletedComponent } from "../components";
 import CommandBoxContextProvider from "../contexts/CommandBoxContext";
 import SeriesContextProvider from "../contexts/SeriesContext";
-import { APIResponse, Series } from "../types";
+import { APIResponse, CommandBoxData, Series } from "../types";
 
 interface ICompletePage {
   complete: APIResponse<Array<Series>>;
@@ -44,13 +44,24 @@ const CompletePage: NextPage<ICompletePage> = ({ complete }) => {
 export async function getServerSideProps() {
   const SERVER_URL = `${process.env.SERVER_URL}/api/v1`;
 
-  const { data: complete } = await axios.get(
-    `${SERVER_URL}/series?limit=32&status=Completed`
-  );
+  const { data: complete }: { data: APIResponse<Array<Series>> } =
+    await axios.get(`${SERVER_URL}/series?limit=32&status=Completed`);
+
+  const cleanedData: Array<CommandBoxData> = complete.data.map((series) => ({
+    duration: series.duration,
+    poster: series.poster,
+    rating: series.rating,
+    slug: series.slug,
+    title: series.title,
+    status: series.status,
+  }));
 
   return {
     props: {
-      complete,
+      complete: {
+        data: cleanedData,
+        info: complete.info,
+      },
     },
   };
 }

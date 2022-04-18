@@ -33,8 +33,8 @@ const SeriesComponent: FunctionComponent = () => {
     <section about="newest-movies" className="mt-4">
       <div className="flex items-center justify-between font-poppins">
         <div className="flex items-center space-x-3">
-          <FilmIcon className="w-8 h-8 text-white" />
-          <h2 className="text-2xl text-white font-medium tracking-wide ">
+          <FilmIcon className="w-6 h-6 md:w-8 md:h-8 text-white" />
+          <h2 className="text-lg md:text-2xl text-white font-medium tracking-wide ">
             Latest Series
           </h2>
         </div>
@@ -47,7 +47,7 @@ const SeriesComponent: FunctionComponent = () => {
         loader={<span>Loading...</span>}
         style={{ display: "flex", flexDirection: "column-reverse" }}
       >
-        <div className="grid h-full grid-cols-4 md:grid-cols-8 lg:grid-cols-8 items-center gap-2 md:gap-5 mt-5">
+        <div className="grid h-full grid-cols-2 md:grid-cols-6 lg:grid-cols-8 items-center gap-2 md:gap-5 mt-5">
           {series.data.map((movie, index) => (
             <Link href={`/series/${movie.slug}`} key={index}>
               <a className="mb-5">

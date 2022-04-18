@@ -64,16 +64,16 @@ const Sidebar: FunctionComponent<ISidebar> = (props) => {
         <h3 className="uppercase mt-8 text-sm text-gray-300 pl-7">Menu</h3>
 
         <ul className="mt-3 w-full transition">
-          {Object.entries(headerLists).map(([_, item], index) => (
+          {Object.entries(headerLists).map(([_, item]) => (
             <li
               className={`mb-8 flex items-center relative w-full pl-7 group hover:bg-red-500 py-4 cursor-pointer transition-all duration-200`}
-              key={index}
+              key={item.name}
               onClick={() => changeHeaderIsActive(item.name)}
             >
               {item.isActive && (
                 <span className="transition-all duration-200 absolute right-0 h-8 border-r-[5px] border-red-500 group-hover:border-red-300 rounded-l-full"></span>
               )}
-              <Link href="/">
+              <Link href={item.href}>
                 <a className="flex items-center ">
                   <div className="mr-5">
                     <item.Icon

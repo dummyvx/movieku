@@ -9,7 +9,7 @@ const Footer: FunctionComponent = () => {
           <Link href="https://107.152.39.187/" passHref>
             <a
               target="_blank"
-              className="text-sm text-gray-400 bg-gray-900 px-5 py-2 rounded-full font-medium hover:text-gray-100 hover:bg-indigo-500 duration-150 transition-all focus:bg-indigo-500 focus:text-white focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-gray-900"
+              className="text-xs md:text-sm text-gray-400 bg-gray-900 px-2 md:px-5 py-2 text-center my-auto rounded-md md:rounded-full font-medium hover:text-gray-100 hover:bg-indigo-500 duration-150 transition-all focus:bg-indigo-500 focus:text-white focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-gray-900"
             >
               Data Provider
             </a>
@@ -17,7 +17,7 @@ const Footer: FunctionComponent = () => {
           <Link href="https://github.com/NovqiGarrix/movieku" passHref>
             <a
               target="_blank"
-              className="text-sm text-gray-400 bg-gray-900 px-5 py-2 rounded-full font-medium hover:text-gray-100 hover:bg-indigo-500 duration-150 transition-all focus:bg-indigo-500 focus:text-white focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-gray-900"
+              className="text-xs md:text-sm text-gray-400 bg-gray-900 px-2 md:px-5 py-2 text-center my-auto rounded-md md:rounded-full font-medium hover:text-gray-100 hover:bg-indigo-500 duration-150 transition-all focus:bg-indigo-500 focus:text-white focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-gray-900"
             >
               Project available on Github
             </a>

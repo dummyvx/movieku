@@ -12,8 +12,8 @@ const TrendingSeries: FunctionComponent = () => {
     <section about="trending-movies" className="mt-4">
       <div className="flex items-center justify-between font-poppins">
         <div className="flex items-center space-x-3">
-          <FireIcon className="w-8 h-8 text-red-600" />
-          <h2 className="text-2xl text-red-500 font-medium tracking-wide ">
+          <FireIcon className="w-6 h-6 md:w-8 md:h-8 text-red-600" />
+          <h2 className="text-base md:text-2xl text-red-500 font-medium tracking-wide">
             Popular Series
           </h2>
         </div>
@@ -25,7 +25,7 @@ const TrendingSeries: FunctionComponent = () => {
         </Link>
       </div>
 
-      <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-7 items-center gap-2 md:gap-5 mt-5">
+      <div className="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-7 items-center gap-2 md:gap-5 mt-5">
         {trendingSeries.data.slice(1, 8).map((seri, index) => {
           return (
             <Link href={`/series/${seri.slug}`} key={index}>

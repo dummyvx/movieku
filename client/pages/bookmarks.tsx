@@ -9,16 +9,19 @@ import { CommandBoxData } from "../types";
 
 const CompletePage: NextPage = () => {
   const [data, setData] = useState<Array<CommandBoxData>>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const storage = localStorage.getItem("bookmarks");
     const bookmarks: Array<string> = storage ? JSON.parse(storage) : [];
 
     if (bookmarks.length) {
+      setIsLoading(true);
       getBookmarks(bookmarks)
         .then((value) => {
           if (value) {
             setData(value);
+            setIsLoading(false);
             return;
           }
         })
@@ -36,7 +39,7 @@ const CompletePage: NextPage = () => {
 
       <CommandBoxContextProvider>
         <Header />
-        <BookmarksComponent data={data} />
+        <BookmarksComponent data={data} isLoading={isLoading} />
         <Footer />
       </CommandBoxContextProvider>
     </div>

@@ -109,7 +109,7 @@ const OneSeriesComponent: FunctionComponent = () => {
               />
 
               <div
-                className={`text-xs text-gray-200 font-poppins w-24 text-center uppercase absolute transform top-5 -left-4 leading-none py-1 -rotate-45 ${
+                className={`hidden md:block text-xs text-gray-200 font-poppins w-24 text-center uppercase absolute transform top-5 -left-4 leading-none py-1 -rotate-45 ${
                   seri.status.toLowerCase() === "completed"
                     ? "bg-indigo-500"
                     : "bg-yellow-500"
@@ -122,7 +122,7 @@ const OneSeriesComponent: FunctionComponent = () => {
             <div className="flex items-start flex-col space-y-10">
               <div className="font-poppins text-gray-200 flex flex-col items-start justify-between sm:h-32 md:h-40 lg:h-[275px]">
                 <div className="font-poppins font-light md:mb-8">
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-medium mb-2 lg:mb-4">
+                  <h2 className="text-base sm:text-2xl md:text-3xl font-medium mb-2 lg:mb-4">
                     {title}
                   </h2>
 
@@ -148,7 +148,7 @@ const OneSeriesComponent: FunctionComponent = () => {
                       >
                         <a
                           key={index}
-                          className="border inline-block mr-1 lg:mr-2 mb-1 sm:mb-2 border-slate-600 text-slate-400 text-[8px] sm:text-[11px] lg:text-xs leading-tight text-center uppercase px-3 py-1 md:px-4 md:py-2 rounded-full hover:bg-slate-300 transition-all duration-100 hover:text-slate-600"
+                          className="border inline-block mr-1 lg:mr-2 mb-1 sm:mb-2 border-slate-600 text-slate-400 text-[7px] sm:text-[11px] lg:text-xs leading-tight text-center uppercase px-3 py-1 md:px-4 md:py-2 rounded-full hover:bg-slate-300 transition-all duration-100 hover:text-slate-600"
                         >
                           {genre}
                         </a>
@@ -162,7 +162,7 @@ const OneSeriesComponent: FunctionComponent = () => {
                       onClick={scrollToDownloadSection}
                     >
                       <DownloadIcon className="w-5 h-5 absolute left-6 hidden md:block text-white leading-none" />
-                      <h5 className="text-center text-xs sm:text-sm">
+                      <h5 className="text-center text-[10px] sm:text-sm">
                         Download
                       </h5>
                     </button>
@@ -176,7 +176,7 @@ const OneSeriesComponent: FunctionComponent = () => {
                         )
                       }
                       type="button"
-                      className={`p-3 rounded-full border-2 border-red-600 cursor-pointer transition-all ease-in-out group duration-500 hover:border-indigo-500 ${
+                      className={`p-2 sm:p-3 rounded-full border-2 border-red-600 cursor-pointer transition-all ease-in-out group duration-500 hover:border-indigo-500 ${
                         onBookmark
                           ? "transition-all duration-100 border-green-500 hover:border-gray-500"
                           : ""
@@ -194,7 +194,7 @@ const OneSeriesComponent: FunctionComponent = () => {
                     <button
                       type="button"
                       onClick={copyToClipboard}
-                      className={`p-3 rounded-full border cursor-pointer transition-all ease-in-out group duration-300 ${
+                      className={`p-2 sm:p-3 rounded-full border cursor-pointer transition-all ease-in-out group duration-300 ${
                         onClipboard
                           ? "border-2 border-green-600 hover:border-green-500"
                           : "border-gray-600 hover:border-gray-500"
@@ -228,11 +228,11 @@ const OneSeriesComponent: FunctionComponent = () => {
 
           {/* Duration and Synopsis */}
           <div className="flex items-start w-full justify-between space-x-8">
-            <div className="font-poppins w-[18%] md:w-[26%] lg:w-[16%] xl:w-[12%]">
-              <h3 className="text-xl sm:text-2xl md:text-3xl font-light text-gray-200">
+            <div className="font-poppins w-[20%] md:w-[26%] lg:w-[16%] xl:w-[12%]">
+              <h3 className="text-lg sm:text-2xl md:text-3xl font-light text-gray-200">
                 {year}
               </h3>
-              <h3 className="text-xl sm:text-2xl md:text-3xl font-light text-gray-200 uppercase">
+              <h3 className="text-lg sm:text-2xl md:text-3xl font-light text-gray-200 uppercase">
                 {dura ?? seri.duration}
               </h3>
             </div>
@@ -243,7 +243,7 @@ const OneSeriesComponent: FunctionComponent = () => {
                   Storyline | Sinopsis
                 </h3>
 
-                <p className="text-gray-400 text-[13px] md:text-sm lg:text-base font-light">
+                <p className="text-gray-400 text-[12px] md:text-sm lg:text-base font-light">
                   {seri.synopsis}
                 </p>
               </div>
