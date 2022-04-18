@@ -9,7 +9,7 @@ router.get('/:slug/one', getMovie);
 
 router.get('/scrap', scrapAllMovies);
 
-router.get('/scrap/update', scrapNewMovies);
+router.put('/scrap/update', scrapNewMovies);
 
 router.get('/filter', getMovieByQueries);
 

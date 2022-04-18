@@ -80,7 +80,7 @@ export const getAllMovies = async (req: Request<{}, {}, {}, GetAllMoviesType>, r
 
         switch (req.query.based) {
             case "newest":
-                return await paginateData(req, res, queries, limit, currentPage, { release: -1 })
+                return await paginateData(req, res, queries, limit, currentPage, { createdAt: 1 })
 
             case "trending":
                 return await paginateData(req, res, queries, limit, currentPage, { rating: -1 })
