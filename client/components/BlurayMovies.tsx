@@ -26,7 +26,7 @@ const BlurayMovies: FunctionComponent = () => {
         </Link>
       </div>
 
-      <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 items-center gap-2 md:gap-5 mt-5">
+      <div className="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-8 items-center gap-2 md:gap-5 mt-5">
         {bluray.data.map((movie, index) => {
           return (
             <Link href={`/movies/${movie.slug}`} key={index}>

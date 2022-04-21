@@ -1,14 +1,7 @@
-import {
-  FunctionComponent,
-  useState,
-  useContext,
-  useEffect,
-  useRef,
-} from "react";
+import { FunctionComponent, useState, useContext, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { CommandBoxData, HeaderInitValue } from "../types";
 import {
   MenuIcon,
   ColorSwatchIcon,
@@ -20,8 +13,9 @@ import {
   SearchIcon,
   BookmarkIcon,
 } from "@heroicons/react/outline";
+import { CommandBoxData, HeaderInitValue } from "../types";
 import Sidebar from "./Sidebar";
-import { CommandBox } from "./";
+import { CommandBox } from ".";
 import useDebounce from "../hooks/useDebounce";
 import { search } from "../api";
 import { CommandBoxContext } from "../contexts/CommandBoxContext";
@@ -30,7 +24,7 @@ interface IHeader {}
 
 const Header: FunctionComponent<IHeader> = () => {
   const router = useRouter();
-  const pathname = router.pathname;
+  const { pathname } = router;
 
   const headerInitValue: HeaderInitValue = {
     Home: {

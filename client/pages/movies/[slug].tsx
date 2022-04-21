@@ -2,7 +2,7 @@ import axios from "axios";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { FunctionComponent, ReactNode } from "react";
-import { Header, MovieComponent } from "../../components";
+import { Footer, Header, MovieComponent } from "../../components";
 import CommandBoxContextProvider from "../../contexts/CommandBoxContext";
 import MovieContextProvider from "../../contexts/MovieContext";
 import { Movie } from "../../types";
@@ -37,6 +37,7 @@ const MoviePage: FunctionComponent<IMoviePage> = ({ movie }) => {
       <MoviesPageWrapper movie={movie}>
         <Header />
         <MovieComponent />
+        <Footer />
       </MoviesPageWrapper>
     </div>
   );

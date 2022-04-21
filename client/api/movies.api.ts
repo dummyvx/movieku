@@ -1,4 +1,5 @@
 
+import axios from "axios";
 import { APIResponse, CommandBoxData, Movie } from "../types";
 import { API } from './';
 
@@ -22,7 +23,8 @@ export async function searchMovies(keyword: string): Promise<Array<CommandBoxDat
 export async function getNextMovies(nextURL: string): Promise<APIResponse<Array<Movie>> | null> {
     try {
 
-        const { data: { error }, statusText, data } = await API.get(nextURL);
+        const url = nextURL.split("/v1")[1];
+        const { data: { error }, statusText, data } = await API.get(url);
         if (error) {
             console.log({ error, msg: statusText })
             return null

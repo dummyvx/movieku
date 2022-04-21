@@ -58,16 +58,8 @@ const MovieComponent: FunctionComponent = () => {
     }));
   };
 
-  const scrollToDownloadSection = () => {
-    const downloadSection =
-      document.querySelector("#download-section")?.scrollWidth;
-    if (!downloadSection) return;
-    window.scrollTo({
-      left: 0,
-      top: downloadSection - 950,
-      behavior: "smooth",
-    });
-  };
+  const scrollToDownloadSection = () =>
+    document.querySelector("#footer")?.scrollIntoView({ behavior: "smooth" });
 
   if (!movie) return <></>;
 
@@ -124,10 +116,7 @@ const MovieComponent: FunctionComponent = () => {
                 <div>
                   <div className="mb-2">
                     {movie.genres.map((genre, index) => (
-                      <Link
-                        href={`/filter?genre=${genre.toLowerCase()}`}
-                        key={genre}
-                      >
+                      <Link href={`/filter?genres=${genre}`} key={genre}>
                         <a
                           key={index}
                           className="border inline-block mr-1 lg:mr-2 mb-1 sm:mb-2 border-slate-600 text-slate-400 text-[8px] sm:text-[11px] lg:text-xs leading-tight text-center uppercase px-3 py-1 md:px-4 md:py-2 rounded-full hover:bg-slate-300 transition-all duration-100 hover:text-slate-600"

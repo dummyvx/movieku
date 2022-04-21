@@ -22,7 +22,8 @@ export async function searchSeries(keyword: string): Promise<Array<CommandBoxDat
 export async function getNextSeries(nextURL: string): Promise<APIResponse<Array<Series>> | null> {
     try {
 
-        const { data: { error }, statusText, data } = await API.get(nextURL);
+        const url = nextURL.split("/v1")[1];
+        const { data: { error }, statusText, data } = await API.get(url);
         if (error) {
             console.log({ error, msg: statusText })
             return null

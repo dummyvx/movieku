@@ -79,7 +79,7 @@ const schema = new mongoose.Schema({
 
 }, { timestamps: true })
 
-schema.index({ 'title': 'text' }, { name: "title_text_index" });
+schema.index({ 'title': 'text', release: 'text', country: 'text', 'quality': 'text', 'director': 'text', 'stars': 'text' }, { name: "title_index" });
 
 const MovieModel = mongoose.model<Movie>('movie', schema);
 export default MovieModel

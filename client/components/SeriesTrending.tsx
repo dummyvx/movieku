@@ -46,7 +46,7 @@ const SeriesTrendingComponent: FunctionComponent = () => {
         loader={<span>Loading...</span>}
         style={{ display: "flex", flexDirection: "column-reverse" }}
       >
-        <div className="grid h-full grid-cols-4 md:grid-cols-6 lg:grid-cols-8 items-center gap-2 md:gap-5 mt-5">
+        <div className="grid h-full grid-cols-2 md:grid-cols-6 lg:grid-cols-8 items-center gap-2 md:gap-5 mt-5">
           {trendingSeries.data.map((series, index) => (
             <Link href={`/series/${series.slug}`} key={index}>
               <a className="mb-5">

@@ -20,3 +20,4 @@ export { default as Toast } from './Toast';
 export { default as TrendingsComponent } from './Trending';
 export { default as TrendingSeries } from './TrendingSeries';
 export { default as BookmarksComponent } from './Bookmarks';
+export { default as QueryFilter } from './QueryFilter';

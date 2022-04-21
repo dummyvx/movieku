@@ -4,7 +4,10 @@ import { Fragment, FunctionComponent } from "react";
 const Footer: FunctionComponent = () => {
   return (
     <Fragment>
-      <footer className="flex items-center flex-col lg:flex-row justify-center lg:justify-between py-8 w-full">
+      <footer
+        id="footer"
+        className="flex items-center flex-col lg:flex-row justify-center lg:justify-between py-8 w-full"
+      >
         <div className="inline-flex space-x-5 font-poppins mb-5 lg:mb-0">
           <Link href="https://107.152.39.187/" passHref>
             <a

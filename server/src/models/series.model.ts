@@ -85,7 +85,11 @@ const schema = new mongoose.Schema({
 
 }, { timestamps: true })
 
-schema.index({ 'title': "text" }, { name: "title_text_index" });
+schema.index({ 'title': "text" }, { name: "title_index" });
+schema.index({ 'release': 'text' }, { name: "release_index" });
+schema.index({ 'country': 'text' }, { name: "country_index" });
+schema.index({ 'director': 'text' }, { name: "director_index" });
+schema.index({ 'stars': 'text' }, { name: "stars_index" });
 
 const SeriesModel = mongoose.model<Series>('serie', schema);
 export default SeriesModel

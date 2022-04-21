@@ -4,7 +4,7 @@ import axios from "axios";
 import Head from "next/head";
 
 import { Series } from "../../types";
-import { Header, OneSeriesComponent } from "../../components";
+import { Footer, Header, OneSeriesComponent } from "../../components";
 import CommandBoxContextProvider from "../../contexts/CommandBoxContext";
 import SeriesContextProvider from "../../contexts/SeriesContext";
 
@@ -38,6 +38,7 @@ const MoviePage: FunctionComponent<ISeriesPage> = ({ seri }) => {
       <SeriesPageWrapper seri={seri}>
         <Header />
         <OneSeriesComponent />
+        <Footer />
       </SeriesPageWrapper>
     </div>
   );
