@@ -3,7 +3,7 @@ import axios from "axios";
 import { NextPage } from "next";
 import Head from "next/head";
 
-import { Header, SeriesComponent } from "../../components";
+import { Footer, Header, SeriesComponent } from "../../components";
 import CommandBoxContextProvider from "../../contexts/CommandBoxContext";
 import SeriesContextProvider from "../../contexts/SeriesContext";
 import { APIResponse, CommandBoxData, Series } from "../../types";
@@ -36,6 +36,7 @@ const SeriesPage: NextPage<ISeriesPage> = ({ series }) => {
       <SeriesPageWrapper series={series}>
         <Header />
         <SeriesComponent />
+        <Footer />
       </SeriesPageWrapper>
     </div>
   );

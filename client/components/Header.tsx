@@ -171,7 +171,7 @@ const Header: FunctionComponent<IHeader> = () => {
           </div>
         </section>
       </header>
-      <div className="mt-24 py-2" />
+      <div className="mt-20 py-2" />
     </>
   );
 };

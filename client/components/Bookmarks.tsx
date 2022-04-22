@@ -51,7 +51,7 @@ const BookmarksComponent: FunctionComponent<IBookmarksComponent> = ({
       ) : (
         <div className="h-96 flex items-center justify-center">
           <h1 className="text-gray-600 font-poppins text-2xl font-medium">
-            You don't have any bookmarks
+            You {`don't`} have any bookmarks
           </h1>
         </div>
       )}

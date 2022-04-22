@@ -7,9 +7,7 @@ import { getNextMovies } from "../api/movies.api";
 import { MovieContext } from "../contexts/MovieContext";
 import { CardComponent } from "./";
 
-interface IMoviesComponent {}
-
-const MoviesComponent: FunctionComponent<IMoviesComponent> = () => {
+const MoviesComponent: FunctionComponent = () => {
   const { movies, addMovies } = useContext(MovieContext);
 
   const [infoData, setInfoData] = useState(movies!.info);

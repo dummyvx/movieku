@@ -3,7 +3,7 @@ import axios from "axios";
 import { NextPage } from "next";
 import Head from "next/head";
 
-import { Header, MoviesComponent } from "../../components";
+import { Footer, Header, MoviesComponent } from "../../components";
 import CommandBoxContextProvider from "../../contexts/CommandBoxContext";
 import MovieContextProvider from "../../contexts/MovieContext";
 import { APIResponse, CommandBoxData, Movie } from "../../types";
@@ -36,6 +36,7 @@ const MoviesPage: NextPage<IMoviesPage> = ({ movies }) => {
       <MoviesPageWrapper movies={movies}>
         <Header />
         <MoviesComponent />
+        <Footer />
       </MoviesPageWrapper>
     </div>
   );

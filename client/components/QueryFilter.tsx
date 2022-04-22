@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/router";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Link from "next/link";
@@ -32,7 +32,7 @@ const TrendingsComponent: FunctionComponent = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  const getMoviesData = async () => {
+  const getMoviesData = useCallback(async () => {
     const isSeriesOnly = query?.includes("seriesOnly=true");
     if (_info.movies.nextURL && !isSeriesOnly) {
       const movies = await getNextMovies(_info.movies.nextURL);
@@ -50,9 +50,9 @@ const TrendingsComponent: FunctionComponent = () => {
       setData((prev) => [...prev, ...cleaned]);
       setInfo((prev) => ({ ...prev, movies: info }));
     }
-  };
+  }, [_info.movies.nextURL, query]);
 
-  const getSeriesData = async () => {
+  const getSeriesData = useCallback(async () => {
     const isMovieOnly = query?.includes("movieOnly=true");
     if (_info.series.nextURL && !isMovieOnly) {
       const series = await getNextSeries(_info.series.nextURL);
@@ -71,18 +71,21 @@ const TrendingsComponent: FunctionComponent = () => {
       setData((prev) => [...prev, ...cleaned]);
       setInfo((prev) => ({ ...prev, series: info }));
     }
-  };
+  }, [_info.series.nextURL, query]);
 
-  const getMoreData = async (getNext: boolean = true) => {
-    !getNext && setIsLoading(true);
-    await getMoviesData();
-    await getSeriesData();
-    setIsLoading(false);
-  };
+  const getMoreData = useCallback(
+    async (getNext: boolean = true) => {
+      !getNext && setIsLoading(true);
+      await getMoviesData();
+      await getSeriesData();
+      !getNext && setIsLoading(false);
+    },
+    [getMoviesData, getSeriesData]
+  );
 
   useEffect(() => {
     getMoreData(false).catch((err) => console.error(err.message));
-  }, []);
+  }, [getMoreData]);
 
   return (
     <section about="popular-movies" className="mt-4">

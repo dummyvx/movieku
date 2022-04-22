@@ -3,7 +3,7 @@ import axios from "axios";
 import { NextPage } from "next";
 import Head from "next/head";
 
-import { Header, OngoingComponent } from "../components";
+import { Footer, Header, OngoingComponent } from "../components";
 import CommandBoxContextProvider from "../contexts/CommandBoxContext";
 import SeriesContextProvider from "../contexts/SeriesContext";
 import { APIResponse, CommandBoxData, Series } from "../types";
@@ -36,6 +36,7 @@ const CompletePage: NextPage<IOngoingPage> = ({ ongoing }) => {
       <OngoingPageWrapper ongoing={ongoing}>
         <Header />
         <OngoingComponent />
+        <Footer />
       </OngoingPageWrapper>
     </div>
   );
