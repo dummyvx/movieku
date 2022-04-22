@@ -90,7 +90,7 @@ const TrendingsComponent: FunctionComponent = () => {
         <div className="flex items-center space-x-3">
           <QuestionMarkCircleIcon className="w-6 h-6 md:w-8 md:h-8 text-white" />
           <h2 className="text-lg md:text-2xl text-white font-medium tracking-wide ">
-            Popular Movies
+            Filter Results
           </h2>
         </div>
       </div>
