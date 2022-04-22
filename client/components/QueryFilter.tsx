@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState, useCallback } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Link from "next/link";
@@ -9,32 +9,26 @@ import { CommandBoxData, InfoReponse } from "../types";
 import { getNextMovies } from "../api/movies.api";
 import { getNextSeries } from "../api/series.api";
 
-type InfoType = Record<"movies" | "series", InfoReponse>;
+export type InfoType = Record<"movies" | "series", InfoReponse>;
 
-const TrendingsComponent: FunctionComponent = () => {
+interface ITrendingsComponent {
+  data: Array<CommandBoxData>;
+  info: InfoType;
+}
+
+const TrendingsComponent: FunctionComponent<ITrendingsComponent> = ({
+  data: rawData,
+  info,
+}) => {
   const router = useRouter();
   const query = router.asPath.split("?")[1];
 
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL!;
+  const [data, setData] = useState<Array<CommandBoxData>>(rawData);
+  const [_info, setInfo] = useState<InfoType>(info);
 
-  const [data, setData] = useState<Array<CommandBoxData>>([]);
-  const [_info, setInfo] = useState<InfoType>({
-    movies: {
-      allPage: 0,
-      nextURL: `${BASE_URL}/api/v1/movie?${query}&limit=32`,
-      page: 0,
-    },
-    series: {
-      allPage: 0,
-      nextURL: `${BASE_URL}/api/v1/series?${query}&limit=32`,
-      page: 0,
-    },
-  });
-  const [isLoading, setIsLoading] = useState(false);
-
-  const getMoviesData = useCallback(async () => {
+  const getMoviesData = async () => {
     const isSeriesOnly = query?.includes("seriesOnly=true");
-    if (_info.movies.nextURL && !isSeriesOnly) {
+    if (_info.movies?.nextURL && !isSeriesOnly) {
       const movies = await getNextMovies(_info.movies.nextURL);
       if (!movies) return;
 
@@ -50,11 +44,11 @@ const TrendingsComponent: FunctionComponent = () => {
       setData((prev) => [...prev, ...cleaned]);
       setInfo((prev) => ({ ...prev, movies: info }));
     }
-  }, [_info.movies.nextURL, query]);
+  };
 
-  const getSeriesData = useCallback(async () => {
+  const getSeriesData = async () => {
     const isMovieOnly = query?.includes("movieOnly=true");
-    if (_info.series.nextURL && !isMovieOnly) {
+    if (_info.series?.nextURL && !isMovieOnly) {
       const series = await getNextSeries(_info.series.nextURL);
       if (!series) return;
 
@@ -71,21 +65,12 @@ const TrendingsComponent: FunctionComponent = () => {
       setData((prev) => [...prev, ...cleaned]);
       setInfo((prev) => ({ ...prev, series: info }));
     }
-  }, [_info.series.nextURL, query]);
+  };
 
-  const getMoreData = useCallback(
-    async (getNext: boolean = true) => {
-      !getNext && setIsLoading(true);
-      await getMoviesData();
-      await getSeriesData();
-      !getNext && setIsLoading(false);
-    },
-    [getMoviesData, getSeriesData]
-  );
-
-  useEffect(() => {
-    getMoreData(false).catch((err) => console.error(err.message));
-  }, [getMoreData]);
+  const getMoreData = async () => {
+    await getMoviesData();
+    await getSeriesData();
+  };
 
   return (
     <section about="popular-movies" className="mt-4">
@@ -98,10 +83,10 @@ const TrendingsComponent: FunctionComponent = () => {
         </div>
       </div>
 
-      {!isLoading ? (
+      {data.length > 0 ? (
         <InfiniteScroll
           dataLength={data.length}
-          hasMore={Boolean(_info.series.nextURL || _info.movies.nextURL)}
+          hasMore={Boolean(_info.series?.nextURL || _info.movies?.nextURL)}
           next={getMoreData}
           loader={<span>Loading...</span>}
           style={{ display: "flex", flexDirection: "column-reverse" }}
@@ -130,9 +115,8 @@ const TrendingsComponent: FunctionComponent = () => {
         </InfiniteScroll>
       ) : (
         <div className="h-screen -mt-20 md:-mt-32 flex-col space-y-5 md:space-y-10 w-full flex items-center justify-center">
-          <RefreshIcon className="w-12 h-12 md:w-20 md:h-20 text-gray-500 animate-spin" />
           <h2 className="text-gray-600 animate-pulse font-poppins text-lg md:text-2xl">
-            Loading...
+            No data found!
           </h2>
         </div>
       )}
