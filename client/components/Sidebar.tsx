@@ -66,7 +66,7 @@ const Sidebar: FunctionComponent<ISidebar> = (props) => {
         <ul className="mt-3 w-full transition">
           {Object.entries(headerLists).map(([_, item]) => (
             <Link href={item.href} passHref key={item.name}>
-              <li
+              <a
                 className={`mb-8 flex items-center relative w-full pl-7 group hover:bg-red-500 py-4 cursor-pointer transition-all duration-200`}
                 onClick={() => changeHeaderIsActive(item.name)}
               >
@@ -74,7 +74,7 @@ const Sidebar: FunctionComponent<ISidebar> = (props) => {
                   <span className="transition-all duration-200 absolute right-0 h-8 border-r-[5px] border-red-500 group-hover:border-red-300 rounded-l-full"></span>
                 )}
 
-                <a className="flex items-center ">
+                <div className="flex items-center">
                   <div className="mr-5">
                     <item.Icon
                       className={`w-5 h-5 transition-all duration-150 ${
@@ -93,8 +93,8 @@ const Sidebar: FunctionComponent<ISidebar> = (props) => {
                   >
                     {item.name}
                   </h5>
-                </a>
-              </li>
+                </div>
+              </a>
             </Link>
           ))}
         </ul>

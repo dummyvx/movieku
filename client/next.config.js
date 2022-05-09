@@ -7,4 +7,9 @@ module.exports = {
   images: {
     domains: ["107.152.39.187", "image.tmdb.org"],
   },
+  i18n: {
+    locales: ["en", "id"],
+    defaultLocale: "en",
+    localeDetection: true,
+  },
 };

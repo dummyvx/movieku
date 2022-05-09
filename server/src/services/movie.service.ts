@@ -25,10 +25,10 @@ async function getAll({ query, sort, limit, skip }: GetAllParams): Promise<Array
     try {
 
         if (query) {
-            return await MovieModel.find(query).limit(limit).skip(skip).lean().sort(sort);
+            return await MovieModel.find(query).limit(limit).skip(skip).sort(sort).lean();
         }
 
-        return await MovieModel.find().limit(limit).skip(skip).lean().sort(sort);
+        return await MovieModel.find().limit(limit).skip(skip).sort(sort).lean();
 
     } catch (error: any) {
         logger.error(error.message);

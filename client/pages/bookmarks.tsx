@@ -32,8 +32,8 @@ const CompletePage: NextPage = () => {
   return (
     <div className="min-h-screen bg-[#0d0d0f] relative z-10 px-10 md:px-14 ">
       <Head>
-        <title>Your Bookmarks - Next.js</title>
-        <meta name="description" content="Movieku create using Next.js" />
+        <title>Your Bookmarks - Movieku</title>
+        <meta name="description" content="My Bookmarks" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

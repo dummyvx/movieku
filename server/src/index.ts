@@ -3,11 +3,13 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
+import compression from 'compression'
 
 import v1 from './routes/v1';
 import logger from './utils/logger';
 import requestLogger from './utils/requestLogger';
 import startScheduleJob from './utils/scheduleJob';
+import shouldCompress from './utils/shouldCompress';
 
 dotenv.config();
 
@@ -17,6 +19,10 @@ const CORS_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:3000"
 const app = express();
 
 app.use(cors({ origin: [CORS_ORIGIN] }));
+app.use(compression({
+    filter: shouldCompress,
+    threshold: 0
+}))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }));
 app.use(helmet())

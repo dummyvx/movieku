@@ -77,7 +77,7 @@ const TrendingsComponent: FunctionComponent<ITrendingsComponent> = ({
       <div className="flex items-center justify-between font-poppins">
         <div className="flex items-center space-x-3">
           <QuestionMarkCircleIcon className="w-6 h-6 md:w-8 md:h-8 text-white" />
-          <h2 className="text-lg md:text-2xl text-white font-medium tracking-wide ">
+          <h2 className="text-lg md:text-xl text-white font-medium tracking-wide ">
             Filter Results
           </h2>
         </div>

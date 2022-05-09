@@ -28,8 +28,8 @@ const CompletePage: NextPage<ICompletePage> = ({ complete }) => {
   return (
     <div className="min-h-screen bg-[#0d0d0f] relative z-10 px-10 md:px-14 ">
       <Head>
-        <title>Completed Series - Next.js</title>
-        <meta name="description" content="Movieku create using Next.js" />
+        <title>Completed Series - Movieku</title>
+        <meta name="description" content="See and download Completed Series!" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

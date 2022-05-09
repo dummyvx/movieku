@@ -122,7 +122,7 @@ const Header: FunctionComponent<IHeader> = () => {
           <ul className="hidden font-poppins text-gray-300 md:flex items-center lg:space-x-12 md:space-x-6 overflow-hidden md:w-[90%] lg:w-[60%] mr-10">
             {Object.entries(headerLists).map(([_, item], index) => (
               <li key={index} className="">
-                <Link href={item.href}>
+                <Link href={item.href} passHref>
                   <a
                     className={`text-sm lg:text-base md:uppercase lg:normal-case text-clip whitespace-nowrap ${
                       item.isActive

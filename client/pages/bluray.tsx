@@ -28,8 +28,8 @@ const Home: NextPage<IBluray> = (props) => {
   return (
     <div className="min-h-screen bg-[#0d0d0f] relative z-10 px-10 md:px-14 ">
       <Head>
-        <title>Bluray Movies - Next.js</title>
-        <meta name="description" content="Movieku create using Next.js" />
+        <title>Bluray Movies - Movieku</title>
+        <meta name="description" content="See and download Blu-Ray movies" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

@@ -28,8 +28,11 @@ const CompletePage: NextPage<IOngoingPage> = ({ ongoing }) => {
   return (
     <div className="min-h-screen bg-[#0d0d0f] relative z-10 px-10 md:px-14 ">
       <Head>
-        <title>Ongoing Series - Next.js</title>
-        <meta name="description" content="Movieku create using Next.js" />
+        <title>Ongoing Series - Movieku</title>
+        <meta
+          name="description"
+          content="See and download OnGoing Series in Movieku!"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

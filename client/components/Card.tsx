@@ -29,7 +29,7 @@ const CardComponent: FunctionComponent<ICardComponent> = (props) => {
           src={imageURL}
           objectFit="cover"
           loading="lazy"
-          className="rounded-lg"
+          className="rounded-lg aspect-[4/3]"
           alt={cardLabel}
         />
       </div>
