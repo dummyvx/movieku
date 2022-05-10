@@ -1,10 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-const withBundleAnalyzer = require("@next/bundle-analyzer")({
-  enabled: process.env.ANALYZE === "true",
-});
-
-module.exports = withBundleAnalyzer({
+module.exports = {
   reactStrictMode: true,
   env: {
     SERVER_URL: process.env.SERVER_URL,
@@ -20,4 +16,4 @@ module.exports = withBundleAnalyzer({
   experimental: {
     nextScriptWorkers: true,
   },
-});
+};
