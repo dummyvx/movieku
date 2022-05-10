@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import { useRouter } from "next/router";
 import axios from "axios";
 import Head from "next/head";
 
@@ -14,7 +13,6 @@ import createStructuredListItem from "../helpers/createStructuredListItem";
 
 interface IBluray {
   blurayMovies: APIResponse<Array<Movie>>;
-  baseURL: string;
 }
 
 const HomeWrapper = ({
@@ -27,28 +25,30 @@ const HomeWrapper = ({
 );
 
 const Home: NextPage<IBluray> = (props) => {
-  const { blurayMovies, baseURL } = props;
+  const { blurayMovies } = props;
+
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
   return (
     <div className="min-h-screen bg-[#0d0d0f] relative z-10 px-10 md:px-14 ">
       <Head>
         <title>Bluray Movies - Movieku</title>
         <meta name="description" content="See and download Blu-Ray movies" />
-        <meta name="image" content={`${baseURL}/vercel.svg`} />
-        <meta name="url" content={`${baseURL}/bluray`} />
+        <meta name="image" content={`${BASE_URL}/vercel.svg`} />
+        <meta name="url" content={`${BASE_URL}/bluray`} />
 
         <meta
           property="og:title"
           content="Bluray Movies - Movieku"
           key="og:title"
         />
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="video.movie" />
         <meta
           property="og:description"
           content="See and download Blu-Ray movies"
         />
-        <meta property="og:image" content={`${baseURL}/vercel.svg`} />
-        <meta property="og:url" content={`${baseURL}/bluray`} />
+        <meta property="og:image" content={`${BASE_URL}/vercel.svg`} />
+        <meta property="og:url" content={`${BASE_URL}/bluray`} />
 
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@novqigarrix" />
@@ -61,7 +61,7 @@ const Home: NextPage<IBluray> = (props) => {
           name="twitter:description"
           content="See and download Blu-Ray movies"
         />
-        <meta name="twitter:image" content={`${baseURL}/vercel.svg`} />
+        <meta name="twitter:image" content={`${BASE_URL}/vercel.svg`} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Script id="bluray-structured-data" type="application/ld+json">
@@ -96,13 +96,7 @@ const Home: NextPage<IBluray> = (props) => {
   );
 };
 
-export async function getServerSideProps(context: any) {
-  const {
-    req: {
-      headers: { host },
-    },
-  } = context;
-
+export async function getServerSideProps() {
   const SERVER_URL = `${process.env.SERVER_URL}/api/v1`;
 
   const { data: blurayMovies }: { data: APIResponse<Array<Movie>> } =
@@ -124,7 +118,6 @@ export async function getServerSideProps(context: any) {
         info: blurayMovies.info,
         data: cleanedBlurayMovies,
       },
-      baseURL: host,
     },
   };
 }

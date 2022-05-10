@@ -6,13 +6,12 @@ import Head from "next/head";
 import { Header, TrendingsComponent } from "../../components";
 import CommandBoxContextProvider from "../../contexts/CommandBoxContext";
 import MovieContextProvider from "../../contexts/MovieContext";
-import { APIResponse, CommandBoxData, Movie } from "../../types";
+import { APIResponse, Movie } from "../../types";
 import Script from "next/script";
 import createStructuredListItem from "../../helpers/createStructuredListItem";
 
 interface ITrendingPage {
   trendingMovies: APIResponse<Array<Movie>>;
-  baseURL: string;
 }
 
 const TrendingPageWrapper = ({
@@ -27,7 +26,9 @@ const TrendingPageWrapper = ({
   </MovieContextProvider>
 );
 
-const MoviesPage: NextPage<ITrendingPage> = ({ trendingMovies, baseURL }) => {
+const MoviesPage: NextPage<ITrendingPage> = ({ trendingMovies }) => {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
   return (
     <div className="min-h-screen bg-[#0d0d0f] relative z-10 px-10 md:px-14 ">
       <Head>
@@ -36,21 +37,21 @@ const MoviesPage: NextPage<ITrendingPage> = ({ trendingMovies, baseURL }) => {
           name="description"
           content="See all popular movies of all time."
         />
-        <meta name="image" content={`${baseURL}/vercel.svg`} />
-        <meta name="url" content={`${baseURL}/movies/trending`} />
+        <meta name="image" content={`${BASE_URL}/vercel.svg`} />
+        <meta name="url" content={`${BASE_URL}/movies/trending`} />
 
         <meta
           property="og:title"
           content="Popular Movies - Next.js"
           key="og:title"
         />
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="video.movie" />
         <meta
           property="og:description"
           content="See all popular movies of all time."
         />
-        <meta property="og:image" content={`${baseURL}/vercel.svg`} />
-        <meta property="og:url" content={`${baseURL}/movies/trending`} />
+        <meta property="og:image" content={`${BASE_URL}/vercel.svg`} />
+        <meta property="og:url" content={`${BASE_URL}/movies/trending`} />
 
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@novqigarrix" />
@@ -63,7 +64,7 @@ const MoviesPage: NextPage<ITrendingPage> = ({ trendingMovies, baseURL }) => {
           name="twitter:description"
           content="See all popular movies of all time."
         />
-        <meta name="twitter:image" content={`${baseURL}/vercel.svg`} />
+        <meta name="twitter:image" content={`${BASE_URL}/vercel.svg`} />
 
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -98,13 +99,7 @@ const MoviesPage: NextPage<ITrendingPage> = ({ trendingMovies, baseURL }) => {
   );
 };
 
-export async function getServerSideProps(context: any) {
-  const {
-    req: {
-      headers: { host },
-    },
-  } = context;
-
+export async function getServerSideProps() {
   const SERVER_URL = `${process.env.SERVER_URL}/api/v1`;
 
   const { data: trendingMovies }: { data: APIResponse<Array<Movie>> } =
@@ -125,7 +120,6 @@ export async function getServerSideProps(context: any) {
         data: cleanedData,
         info: trendingMovies.info,
       },
-      baseURL: host,
     },
   };
 }

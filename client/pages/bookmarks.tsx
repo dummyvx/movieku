@@ -1,4 +1,4 @@
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { getBookmarks } from "../api";
@@ -7,13 +7,13 @@ import { Header, Footer, BookmarksComponent } from "../components";
 import CommandBoxContextProvider from "../contexts/CommandBoxContext";
 import { CommandBoxData } from "../types";
 
-interface IBookmarksPage {
-  baseURL: string;
-}
+interface IBookmarksPage {}
 
-const BookmarksPage: NextPage<IBookmarksPage> = ({ baseURL }) => {
+const BookmarksPage: NextPage<IBookmarksPage> = () => {
   const [data, setData] = useState<Array<CommandBoxData>>([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
   useEffect(() => {
     const storage = localStorage.getItem("bookmarks");
@@ -39,18 +39,18 @@ const BookmarksPage: NextPage<IBookmarksPage> = ({ baseURL }) => {
         <title>Your Bookmarks - Movieku</title>
         <meta name="description" content="My Bookmarks" />
 
-        <meta name="image" content={`${baseURL}/vercel.svg`} />
-        <meta name="url" content={`${baseURL}/bookmarks`} />
+        <meta name="image" content={`${BASE_URL}/vercel.svg`} />
+        <meta name="url" content={`${BASE_URL}/bookmarks`} />
 
         <meta
           property="og:title"
           content="Your Bookmarks - Movieku"
           key="og:title"
         />
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="video.movie" />
         <meta property="og:description" content="My Bookmarks" />
-        <meta property="og:image" content={`${baseURL}/vercel.svg`} />
-        <meta property="og:url" content={`${baseURL}/bookmarks`} />
+        <meta property="og:image" content={`${BASE_URL}/vercel.svg`} />
+        <meta property="og:url" content={`${BASE_URL}/bookmarks`} />
 
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@novqigarrix" />
@@ -60,7 +60,7 @@ const BookmarksPage: NextPage<IBookmarksPage> = ({ baseURL }) => {
           key="twitter:title"
         />
         <meta name="twitter:description" content="My Bookmarks" />
-        <meta name="twitter:image" content={`${baseURL}/vercel.svg`} />
+        <meta name="twitter:image" content={`${BASE_URL}/vercel.svg`} />
         <link rel="icon" href="/favicon.ico" />
 
         <link rel="icon" href="/favicon.ico" />
@@ -72,20 +72,6 @@ const BookmarksPage: NextPage<IBookmarksPage> = ({ baseURL }) => {
       </CommandBoxContextProvider>
     </div>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const {
-    req: {
-      headers: { host },
-    },
-  } = context;
-
-  return {
-    props: {
-      baseURL: host,
-    },
-  };
 };
 
 export default BookmarksPage;

@@ -11,7 +11,6 @@ import { Movie } from "../../types";
 
 interface IMoviePage {
   movie: Movie;
-  baseURL: string;
 }
 
 const MoviesPageWrapper = ({
@@ -26,7 +25,7 @@ const MoviesPageWrapper = ({
   </MovieContextProvider>
 );
 
-const MoviePage: FunctionComponent<IMoviePage> = ({ movie, baseURL }) => {
+const MoviePage: FunctionComponent<IMoviePage> = ({ movie }) => {
   if (!movie) return <></>;
 
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -37,17 +36,18 @@ const MoviePage: FunctionComponent<IMoviePage> = ({ movie, baseURL }) => {
         <title>{movie.title.split("Film ")[1]} - Movieku</title>
         <meta name="description" content={movie.synopsis} />
         <meta name="image" content={movie.poster} />
-        <meta name="url" content={`${baseURL}/movies/${movie.slug}`} />
+        <meta name="url" content={`${BASE_URL}/movies/${movie.slug}`} />
 
         <meta
           property="og:title"
           content={`${movie.title.split("Film ")[1]} - Movieku`}
           key="og:title"
         />
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="video.movie" />
         <meta property="og:description" content={movie.synopsis} />
         <meta property="og:image" content={movie.poster} />
-        <meta property="og:url" content={`${baseURL}/movies/${movie.slug}`} />
+        <meta property="og:image:alt" content={movie.title} />
+        <meta property="og:url" content={`${BASE_URL}/movies/${movie.slug}`} />
 
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@novqigarrix" />
@@ -98,12 +98,7 @@ const MoviePage: FunctionComponent<IMoviePage> = ({ movie, baseURL }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({
-  params,
-  req: {
-    headers: { host },
-  },
-}) => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const SERVER_URL = `${process.env.SERVER_URL}/api/v1`;
 
   const slug = params?.slug;
@@ -122,7 +117,6 @@ export const getServerSideProps: GetServerSideProps = async ({
   return {
     props: {
       movie,
-      baseURL: host,
     },
   };
 };

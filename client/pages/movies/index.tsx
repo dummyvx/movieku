@@ -12,7 +12,6 @@ import createStructuredListItem from "../../helpers/createStructuredListItem";
 
 interface IMoviesPage {
   movies: APIResponse<Array<Movie>>;
-  baseURL: string;
 }
 
 const MoviesPageWrapper = ({
@@ -27,24 +26,26 @@ const MoviesPageWrapper = ({
   </MovieContextProvider>
 );
 
-const MoviesPage: NextPage<IMoviesPage> = ({ movies, baseURL }) => {
+const MoviesPage: NextPage<IMoviesPage> = ({ movies }) => {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
   return (
     <div className="min-h-screen bg-[#0d0d0f] relative z-10 px-10 md:px-14 ">
       <Head>
         <title>Movies Page - Next.js</title>
         <meta name="description" content="See all latest movies" />
-        <meta name="image" content={`${baseURL}/vercel.svg`} />
-        <meta name="url" content={`${baseURL}/movies`} />
+        <meta name="image" content={`${BASE_URL}/vercel.svg`} />
+        <meta name="url" content={`${BASE_URL}/movies`} />
 
         <meta
           property="og:title"
           content="Movies Page - Next.js"
           key="og:title"
         />
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="video.movie" />
         <meta property="og:description" content="See all latest movies" />
-        <meta property="og:image" content={`${baseURL}/vercel.svg`} />
-        <meta property="og:url" content={`${baseURL}/movies`} />
+        <meta property="og:image" content={`${BASE_URL}/vercel.svg`} />
+        <meta property="og:url" content={`${BASE_URL}/movies`} />
 
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@novqigarrix" />
@@ -54,7 +55,7 @@ const MoviesPage: NextPage<IMoviesPage> = ({ movies, baseURL }) => {
           key="twitter:title"
         />
         <meta name="twitter:description" content="See all latest movies" />
-        <meta name="twitter:image" content={`${baseURL}/vercel.svg`} />
+        <meta name="twitter:image" content={`${BASE_URL}/vercel.svg`} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Script id="movies-structured-data" type="application/ld+json">
@@ -89,13 +90,7 @@ const MoviesPage: NextPage<IMoviesPage> = ({ movies, baseURL }) => {
   );
 };
 
-export async function getServerSideProps(context: any) {
-  const {
-    req: {
-      headers: { host },
-    },
-  } = context;
-
+export async function getServerSideProps() {
   const SERVER_URL = `${process.env.SERVER_URL}/api/v1`;
 
   const { data: movies }: { data: APIResponse<Array<Movie>> } = await axios.get(
@@ -117,7 +112,6 @@ export async function getServerSideProps(context: any) {
         data: cleanedData,
         info: movies.info,
       },
-      baseURL: host,
     },
   };
 }

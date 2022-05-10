@@ -12,7 +12,6 @@ import createStructuredListItem from "../../helpers/createStructuredListItem";
 
 interface ITrendingSeriesPage {
   trendingSeries: APIResponse<Array<Series>>;
-  baseURL: string;
 }
 
 const SeriesPageWrapper = ({
@@ -27,10 +26,9 @@ const SeriesPageWrapper = ({
   </SeriesContextProvider>
 );
 
-const SeriesPage: NextPage<ITrendingSeriesPage> = ({
-  trendingSeries,
-  baseURL,
-}) => {
+const SeriesPage: NextPage<ITrendingSeriesPage> = ({ trendingSeries }) => {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
   return (
     <div className="min-h-screen bg-[#0d0d0f] relative z-10 px-10 md:px-14 ">
       <Head>
@@ -39,21 +37,21 @@ const SeriesPage: NextPage<ITrendingSeriesPage> = ({
           name="description"
           content="See all trending series of all time."
         />
-        <meta name="image" content={`${baseURL}/vercel.svg`} />
-        <meta name="url" content={`${baseURL}/series`} />
+        <meta name="image" content={`${BASE_URL}/vercel.svg`} />
+        <meta name="url" content={`${BASE_URL}/series`} />
 
         <meta
           property="og:title"
           content="Trending Series - Movieku"
           key="og:title"
         />
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="video.movie" />
         <meta
           property="og:description"
           content="See all trending series of all time."
         />
-        <meta property="og:image" content={`${baseURL}/vercel.svg`} />
-        <meta property="og:url" content={`${baseURL}/series`} />
+        <meta property="og:image" content={`${BASE_URL}/vercel.svg`} />
+        <meta property="og:url" content={`${BASE_URL}/series`} />
 
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@novqigarrix" />
@@ -66,7 +64,7 @@ const SeriesPage: NextPage<ITrendingSeriesPage> = ({
           name="twitter:description"
           content="See all trending series of all time."
         />
-        <meta name="twitter:image" content={`${baseURL}/vercel.svg`} />
+        <meta name="twitter:image" content={`${BASE_URL}/vercel.svg`} />
 
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -101,13 +99,7 @@ const SeriesPage: NextPage<ITrendingSeriesPage> = ({
   );
 };
 
-export async function getServerSideProps(context: any) {
-  const {
-    req: {
-      headers: { host },
-    },
-  } = context;
-
+export async function getServerSideProps() {
   const SERVER_URL = `${process.env.SERVER_URL}/api/v1`;
 
   const { data: trendingSeries }: { data: APIResponse<Array<Series>> } =
@@ -130,7 +122,6 @@ export async function getServerSideProps(context: any) {
         data: cleanedData,
         info: trendingSeries.info,
       },
-      baseURL: host,
     },
   };
 }

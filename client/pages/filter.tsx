@@ -19,10 +19,9 @@ const HomeWrapper = ({ children }: { children: ReactNode }) => (
 interface IFilterPage {
   data: Array<Movie | Series>;
   info: InfoType;
-  baseURL: string;
 }
 
-const FilterPage: NextPage<IFilterPage> = ({ data: raw, info, baseURL }) => {
+const FilterPage: NextPage<IFilterPage> = ({ data: raw, info }) => {
   const data: Array<CommandBoxData> = raw.map((item) => ({
     duration: item.duration,
     poster: item.poster,
@@ -32,23 +31,25 @@ const FilterPage: NextPage<IFilterPage> = ({ data: raw, info, baseURL }) => {
     status: item.status,
   }));
 
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
   return (
     <div className="min-h-screen bg-[#0d0d0f] relative z-10 px-10 md:px-14 ">
       <Head>
         <title>Filter Page - Next.js</title>
         <meta name="description" content="Filter page of Movieku" />
-        <meta name="image" content={`${baseURL}/vercel.svg`} />
-        <meta name="url" content={`${baseURL}/filter`} />
+        <meta name="image" content={`${BASE_URL}/vercel.svg`} />
+        <meta name="url" content={`${BASE_URL}/filter`} />
 
         <meta
           property="og:title"
           content="Filter Page - Next.js"
           key="og:title"
         />
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="video.movie" />
         <meta property="og:description" content="Filter page of Movieku" />
-        <meta property="og:image" content={`${baseURL}/vercel.svg`} />
-        <meta property="og:url" content={`${baseURL}/filter`} />
+        <meta property="og:image" content={`${BASE_URL}/vercel.svg`} />
+        <meta property="og:url" content={`${BASE_URL}/filter`} />
 
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@novqigarrix" />
@@ -58,7 +59,7 @@ const FilterPage: NextPage<IFilterPage> = ({ data: raw, info, baseURL }) => {
           key="twitter:title"
         />
         <meta name="twitter:description" content="Filter page of Movieku" />
-        <meta name="twitter:image" content={`${baseURL}/vercel.svg`} />
+        <meta name="twitter:image" content={`${BASE_URL}/vercel.svg`} />
 
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -95,12 +96,6 @@ const FilterPage: NextPage<IFilterPage> = ({ data: raw, info, baseURL }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const {
-    req: {
-      headers: { host },
-    },
-  } = ctx;
-
   const query = ctx.resolvedUrl.split("?")[1] ?? "";
 
   let movies: APIResponse<Movie[]> | null = null;
@@ -122,7 +117,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         movies: movies?.info ?? null,
         series: series?.info ?? null,
       },
-      baseURL: host,
     },
   };
 };

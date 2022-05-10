@@ -12,7 +12,6 @@ import createStructuredActorData from "../../helpers/createStructuredActorData";
 
 interface ISeriesPage {
   seri: Series;
-  baseURL: string;
 }
 
 const SeriesPageWrapper = ({
@@ -27,7 +26,7 @@ const SeriesPageWrapper = ({
   </SeriesContextProvider>
 );
 
-const MoviePage: FunctionComponent<ISeriesPage> = ({ seri, baseURL }) => {
+const MoviePage: FunctionComponent<ISeriesPage> = ({ seri }) => {
   if (!seri) return <></>;
 
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -38,17 +37,18 @@ const MoviePage: FunctionComponent<ISeriesPage> = ({ seri, baseURL }) => {
         <title>{seri.title.split("Film ")[1]} - Movieku</title>
         <meta name="description" content="Movieku create using Next.js" />
         <meta name="image" content={seri.poster} />
-        <meta name="url" content={`${baseURL}/series/${seri.slug}`} />
+        <meta name="url" content={`${BASE_URL}/series/${seri.slug}`} />
 
         <meta
           property="og:title"
           content={`${seri.title.split("Film ")[1]} - Movieku`}
           key="og:title"
         />
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="video.movie" />
         <meta property="og:description" content={seri.synopsis} />
         <meta property="og:image" content={seri.poster} />
-        <meta property="og:url" content={`${baseURL}/series/${seri.slug}`} />
+        <meta property="og:image:alt" content={seri.title} />
+        <meta property="og:url" content={`${BASE_URL}/series/${seri.slug}`} />
 
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@novqigarrix" />
@@ -99,12 +99,7 @@ const MoviePage: FunctionComponent<ISeriesPage> = ({ seri, baseURL }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({
-  params,
-  req: {
-    headers: { host },
-  },
-}) => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const SERVER_URL = `${process.env.SERVER_URL}/api/v1`;
 
   const slug = params?.slug;
@@ -123,7 +118,6 @@ export const getServerSideProps: GetServerSideProps = async ({
   return {
     props: {
       seri,
-      baseURL: host,
     },
   };
 };

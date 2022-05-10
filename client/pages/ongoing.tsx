@@ -12,7 +12,6 @@ import createStructuredListItem from "../helpers/createStructuredListItem";
 
 interface IOngoingPage {
   ongoing: APIResponse<Array<Series>>;
-  baseURL: string;
 }
 
 const OngoingPageWrapper = ({
@@ -27,24 +26,26 @@ const OngoingPageWrapper = ({
   </SeriesContextProvider>
 );
 
-const CompletePage: NextPage<IOngoingPage> = ({ ongoing, baseURL }) => {
+const CompletePage: NextPage<IOngoingPage> = ({ ongoing }) => {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
   return (
     <div className="min-h-screen bg-[#0d0d0f] relative z-10 px-10 md:px-14 ">
       <Head>
         <title>Ongoing Series - Movieku</title>
         <meta name="description" content="See all ongoing series." />
-        <meta name="image" content={`${baseURL}/vercel.svg`} />
-        <meta name="url" content={`${baseURL}/ongoing`} />
+        <meta name="image" content={`${BASE_URL}/vercel.svg`} />
+        <meta name="url" content={`${BASE_URL}/ongoing`} />
 
         <meta
           property="og:title"
           content="Ongoing Series - Movieku"
           key="og:title"
         />
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="video.movie" />
         <meta property="og:description" content="See all ongoing series." />
-        <meta property="og:image" content={`${baseURL}/vercel.svg`} />
-        <meta property="og:url" content={`${baseURL}/ongoing`} />
+        <meta property="og:image" content={`${BASE_URL}/vercel.svg`} />
+        <meta property="og:url" content={`${BASE_URL}/ongoing`} />
 
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@novqigarrix" />
@@ -54,7 +55,7 @@ const CompletePage: NextPage<IOngoingPage> = ({ ongoing, baseURL }) => {
           key="twitter:title"
         />
         <meta name="twitter:description" content="See all ongoing series." />
-        <meta name="twitter:image" content={`${baseURL}/vercel.svg`} />
+        <meta name="twitter:image" content={`${BASE_URL}/vercel.svg`} />
 
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -90,13 +91,7 @@ const CompletePage: NextPage<IOngoingPage> = ({ ongoing, baseURL }) => {
   );
 };
 
-export async function getServerSideProps(context: any) {
-  const {
-    req: {
-      headers: { host },
-    },
-  } = context;
-
+export async function getServerSideProps() {
   const SERVER_URL = `${process.env.SERVER_URL}/api/v1`;
 
   const { data: ongoing }: { data: APIResponse<Array<Series>> } =
@@ -119,7 +114,6 @@ export async function getServerSideProps(context: any) {
         data: cleanedData,
         info: ongoing.info,
       },
-      baseURL: host,
     },
   };
 }

@@ -15,14 +15,13 @@ import createStructuredListItem from "../helpers/createStructuredListItem";
 interface IHome {
   trendingMovies: APIResponse<Array<Movie>>;
   trendingSeries: APIResponse<Array<Series>>;
-  baseURL: string;
 }
 
 const HomeWrapper = ({
   trendingMovies,
   trendingSeries,
   children,
-}: Omit<IHome, "baseURL"> & { children: ReactNode }) => (
+}: IHome & { children: ReactNode }) => (
   <MovieContextProvider trendingMovies={trendingMovies}>
     <SeriesContextProvider trendingSeries={trendingSeries}>
       <CommandBoxContextProvider>{children}</CommandBoxContextProvider>
@@ -31,8 +30,10 @@ const HomeWrapper = ({
 );
 
 const Home: NextPage<IHome> = (props) => {
-  const { trendingMovies, trendingSeries, baseURL } = props;
+  const { trendingMovies, trendingSeries } = props;
   const structuredDatas = [...trendingMovies.data, ...trendingSeries.data];
+
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
   return (
     <div className="min-h-screen bg-[#0d0d0f] relative z-10 px-10 md:px-14 ">
@@ -42,21 +43,21 @@ const Home: NextPage<IHome> = (props) => {
           name="description"
           content="See popular movies and series around the world!"
         />
-        <meta name="image" content={`${baseURL}/vercel.svg`} />
-        <meta name="url" content={baseURL} />
+        <meta name="image" content={`${BASE_URL}/vercel.svg`} />
+        <meta name="url" content={BASE_URL} />
 
         <meta
           property="og:title"
           content="Popular Movies and Series - Movieku"
           key="og:title"
         />
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="video.movie" />
         <meta
           property="og:description"
           content="See popular movies and series around the world!"
         />
-        <meta property="og:image" content={`${baseURL}/vercel.svg`} />
-        <meta property="og:url" content={baseURL} />
+        <meta property="og:image" content={`${BASE_URL}/vercel.svg`} />
+        <meta property="og:url" content={BASE_URL} />
 
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@novqigarrix" />
@@ -69,7 +70,7 @@ const Home: NextPage<IHome> = (props) => {
           name="twitter:description"
           content="See popular movies and series around the world!"
         />
-        <meta name="twitter:image" content={`${baseURL}/vercel.svg`} />
+        <meta name="twitter:image" content={`${BASE_URL}/vercel.svg`} />
 
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -109,13 +110,7 @@ const Home: NextPage<IHome> = (props) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const {
-    req: { headers },
-  } = context;
-
-  const host = headers.host;
-
+export const getServerSideProps: GetServerSideProps = async () => {
   const SERVER_URL = `${process.env.SERVER_URL}/api/v1`;
 
   const { data: trendingMovies }: { data: APIResponse<Array<Movie>> } =
@@ -155,7 +150,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         info: trendingSeries.info,
         data: cleanedTrendingSeries,
       },
-      baseURL: host,
     },
   };
 };

@@ -27,27 +27,29 @@ const SeriesPageWrapper = ({
   </SeriesContextProvider>
 );
 
-const SeriesPage: NextPage<ISeriesPage> = ({ series, baseURL }) => {
+const SeriesPage: NextPage<ISeriesPage> = ({ series }) => {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
   return (
     <div className="min-h-screen bg-[#0d0d0f] relative z-10 px-10 md:px-14 ">
       <Head>
         <title>Series Page - Movieku</title>
         <meta name="description" content="See all latest series of all time." />
-        <meta name="image" content={`${baseURL}/vercel.svg`} />
-        <meta name="url" content={`${baseURL}/series`} />
+        <meta name="image" content={`${BASE_URL}/vercel.svg`} />
+        <meta name="url" content={`${BASE_URL}/series`} />
 
         <meta
           property="og:title"
           content="Series Page - Movieku"
           key="og:title"
         />
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="video.movie" />
         <meta
           property="og:description"
           content="See all latest series of all time."
         />
-        <meta property="og:image" content={`${baseURL}/vercel.svg`} />
-        <meta property="og:url" content={`${baseURL}/series`} />
+        <meta property="og:image" content={`${BASE_URL}/vercel.svg`} />
+        <meta property="og:url" content={`${BASE_URL}/series`} />
 
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@novqigarrix" />
@@ -60,7 +62,7 @@ const SeriesPage: NextPage<ISeriesPage> = ({ series, baseURL }) => {
           name="twitter:description"
           content="See all latest series of all time."
         />
-        <meta name="twitter:image" content={`${baseURL}/vercel.svg`} />
+        <meta name="twitter:image" content={`${BASE_URL}/vercel.svg`} />
 
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -96,13 +98,7 @@ const SeriesPage: NextPage<ISeriesPage> = ({ series, baseURL }) => {
   );
 };
 
-export async function getServerSideProps(context: any) {
-  const {
-    req: {
-      headers: { host },
-    },
-  } = context;
-
+export async function getServerSideProps() {
   const SERVER_URL = `${process.env.SERVER_URL}/api/v1`;
 
   const { data: series }: { data: APIResponse<Array<Series>> } =
@@ -124,7 +120,6 @@ export async function getServerSideProps(context: any) {
         data: cleanedData,
         info: series.info,
       },
-      baseURL: host,
     },
   };
 }
