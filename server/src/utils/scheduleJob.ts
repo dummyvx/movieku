@@ -7,8 +7,8 @@ import logger from './logger';
 
 function updateSeriesStatus(): void {
 
-    // Run every 2 days
-    scheduleJob('0 0 2 * *', async () => {
+    // Run every day at 00:00 AM
+    scheduleJob('0 0 * * *', async () => {
         logger.info('UPDATING SERIES STATUS')
 
         try {
@@ -23,8 +23,8 @@ function updateSeriesStatus(): void {
 
 function getNewSeries(): void {
 
-    // Run every day at 01:30 AM
-    scheduleJob('30 1 * * *', async () => {
+    // Run every day at 01:20 AM
+    scheduleJob('20 1 * * *', async () => {
 
         logger.info('GETTING NEW SERIES')
 

@@ -4,6 +4,7 @@ import { BookmarkIcon, RefreshIcon } from "@heroicons/react/outline";
 
 import { CommandBoxData } from "../types";
 import { CardComponent } from "./";
+import { GetServerSideProps } from "next";
 
 interface IBookmarksComponent {
   data: Array<CommandBoxData>;

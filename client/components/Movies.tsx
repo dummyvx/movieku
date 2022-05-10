@@ -12,6 +12,8 @@ const MoviesComponent: FunctionComponent = () => {
 
   const [infoData, setInfoData] = useState(movies!.info);
 
+  if (!movies) return <></>;
+
   const getMoreData = () => {
     const queried = infoData.nextURL.includes("&");
     getNextMovies(`${infoData.nextURL}${queried ? "" : "&limit=32"}`)
@@ -26,8 +28,6 @@ const MoviesComponent: FunctionComponent = () => {
       })
       .catch((err) => console.error({ err }));
   };
-
-  if (!movies) return <></>;
 
   return (
     <section about="newest-movies" className="mt-4">

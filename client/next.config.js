@@ -12,4 +12,7 @@ module.exports = {
     defaultLocale: "en",
     localeDetection: true,
   },
+  experimental: {
+    nextScriptWorkers: true,
+  },
 };

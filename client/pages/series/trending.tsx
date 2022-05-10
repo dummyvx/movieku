@@ -7,9 +7,12 @@ import { Header, SeriesTrending } from "../../components";
 import CommandBoxContextProvider from "../../contexts/CommandBoxContext";
 import SeriesContextProvider from "../../contexts/SeriesContext";
 import { APIResponse, CommandBoxData, Series } from "../../types";
+import Script from "next/script";
+import createStructuredListItem from "../../helpers/createStructuredListItem";
 
 interface ITrendingSeriesPage {
   trendingSeries: APIResponse<Array<Series>>;
+  baseURL: string;
 }
 
 const SeriesPageWrapper = ({
@@ -24,14 +27,71 @@ const SeriesPageWrapper = ({
   </SeriesContextProvider>
 );
 
-const SeriesPage: NextPage<ITrendingSeriesPage> = ({ trendingSeries }) => {
+const SeriesPage: NextPage<ITrendingSeriesPage> = ({
+  trendingSeries,
+  baseURL,
+}) => {
   return (
     <div className="min-h-screen bg-[#0d0d0f] relative z-10 px-10 md:px-14 ">
       <Head>
-        <title>Trending Series - Next.js</title>
-        <meta name="description" content="Movieku create using Next.js" />
+        <title>Trending Series - Movieku</title>
+        <meta
+          name="description"
+          content="See all trending series of all time."
+        />
+        <meta name="image" content={`${baseURL}/vercel.svg`} />
+        <meta name="url" content={`${baseURL}/series`} />
+
+        <meta
+          property="og:title"
+          content="Trending Series - Movieku"
+          key="og:title"
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:description"
+          content="See all trending series of all time."
+        />
+        <meta property="og:image" content={`${baseURL}/vercel.svg`} />
+        <meta property="og:url" content={`${baseURL}/series`} />
+
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@novqigarrix" />
+        <meta
+          name="twitter:title"
+          content="Trending Series - Movieku"
+          key="twitter:title"
+        />
+        <meta
+          name="twitter:description"
+          content="See all trending series of all time."
+        />
+        <meta name="twitter:image" content={`${baseURL}/vercel.svg`} />
+
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Script id="trendignSeries-structured-data" type="application/ld+json">
+        {`{
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "itemListElement": [
+              ${trendingSeries.data
+                .map((value, index) =>
+                  createStructuredListItem({
+                    director: value.director ?? "",
+                    image: value.poster,
+                    index,
+                    name: value.title,
+                    rating: value.rating,
+                    release: value.release ?? "",
+                    slug: value.slug,
+                    status: value.status,
+                  })
+                )
+                .join(",")}
+            ]
+          }`}
+      </Script>
 
       <SeriesPageWrapper trendingSeries={trendingSeries}>
         <Header />
@@ -41,19 +101,27 @@ const SeriesPage: NextPage<ITrendingSeriesPage> = ({ trendingSeries }) => {
   );
 };
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: any) {
+  const {
+    req: {
+      headers: { host },
+    },
+  } = context;
+
   const SERVER_URL = `${process.env.SERVER_URL}/api/v1`;
 
   const { data: trendingSeries }: { data: APIResponse<Array<Series>> } =
     await axios.get(`${SERVER_URL}/series?limit=32&based=trending`);
   const cleanedData: Array<CommandBoxData> = trendingSeries.data.map(
     (series) => ({
-      duration: series.duration,
+      title: series.title,
+      slug: series.slug,
       poster: series.poster,
       rating: series.rating,
-      slug: series.slug,
-      title: series.title,
+      duration: series.duration,
       status: series.status,
+      director: series.director,
+      release: series.release,
     })
   );
   return {
@@ -62,6 +130,7 @@ export async function getServerSideProps() {
         data: cleanedData,
         info: trendingSeries.info,
       },
+      baseURL: host,
     },
   };
 }

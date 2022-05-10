@@ -30,7 +30,7 @@ export async function search(keyword: string): Promise<Array<CommandBoxData> | n
 export async function getBookmarks(bookmarks: Array<string>): Promise<Array<CommandBoxData> | null> {
     try {
 
-        let allData: Array<Movie & Series> = []
+        let allData: Array<Movie | Series> = []
         let series: Array<string> = []
 
         for (const item of bookmarks) {

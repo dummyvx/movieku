@@ -30,6 +30,7 @@ export type Movie = {
     rating: string;
     trailer: string | undefined;
     synopsis: string;
+    status: undefined;
 
     links: Array<MovieLink>
 }

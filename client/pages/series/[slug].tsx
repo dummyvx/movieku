@@ -7,9 +7,12 @@ import { Series } from "../../types";
 import { Footer, Header, OneSeriesComponent } from "../../components";
 import CommandBoxContextProvider from "../../contexts/CommandBoxContext";
 import SeriesContextProvider from "../../contexts/SeriesContext";
+import Script from "next/script";
+import createStructuredActorData from "../../helpers/createStructuredActorData";
 
 interface ISeriesPage {
   seri: Series;
+  baseURL: string;
 }
 
 const SeriesPageWrapper = ({
@@ -24,16 +27,68 @@ const SeriesPageWrapper = ({
   </SeriesContextProvider>
 );
 
-const MoviePage: FunctionComponent<ISeriesPage> = ({ seri }) => {
+const MoviePage: FunctionComponent<ISeriesPage> = ({ seri, baseURL }) => {
   if (!seri) return <></>;
+
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
   return (
     <div className="min-h-screen bg-[#0d0d0f] relative z-1 px-4 sm:px-10 md:px-14">
       <Head>
-        <title>{seri.title.split("Film ")[1]} - Movies</title>
+        <title>{seri.title.split("Film ")[1]} - Movieku</title>
         <meta name="description" content="Movieku create using Next.js" />
+        <meta name="image" content={seri.poster} />
+        <meta name="url" content={`${baseURL}/series/${seri.slug}`} />
+
+        <meta
+          property="og:title"
+          content={`${seri.title.split("Film ")[1]} - Movieku`}
+          key="og:title"
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content={seri.synopsis} />
+        <meta property="og:image" content={seri.poster} />
+        <meta property="og:url" content={`${baseURL}/series/${seri.slug}`} />
+
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@novqigarrix" />
+        <meta
+          name="twitter:title"
+          content={`${seri.title.split("Film ")[1]} - Movieku`}
+          key="twitter:title"
+        />
+        <meta name="twitter:description" content={seri.synopsis} />
+        <meta name="twitter:image" content={seri.poster} />
+
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Script id="series/[slug]" type="application/ld+json">
+        {`{
+            "@context": "https://schema.org",
+            "@type": "Movie",
+            "image": "${seri.poster}",
+            "url": "${BASE_URL}/movies/${seri.slug}",
+            "dateCreated": "${seri.release}",
+            "genre": "${seri.genres.join(", ")}",
+            "actor": [
+              ${seri.stars
+                .map((star) => createStructuredActorData(star))
+                .join(",")}
+            ],
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "${Math.round(Number(seri.rating))}",
+              "bestRating": "${Math.round(Number(seri.rating))}",
+              "ratingCount": "10000"
+            },
+            "description": "${seri.synopsis}",
+            "director": {
+              "@type": "Person",
+              "name": "${seri.director}"
+            },
+            "name": "${seri.title}"
+          }`}
+      </Script>
 
       <SeriesPageWrapper seri={seri}>
         <Header />
@@ -44,7 +99,12 @@ const MoviePage: FunctionComponent<ISeriesPage> = ({ seri }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  params,
+  req: {
+    headers: { host },
+  },
+}) => {
   const SERVER_URL = `${process.env.SERVER_URL}/api/v1`;
 
   const slug = params?.slug;
@@ -60,12 +120,10 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     data: { data: seri },
   } = await axios.get(`${SERVER_URL}/series/${slug}/one`);
 
-  // if no result -> ask user to wait or not -> Wait ->
-  // Scrap the data from the original web, and add it to the database
-
   return {
     props: {
       seri,
+      baseURL: host,
     },
   };
 };

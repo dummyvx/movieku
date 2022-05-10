@@ -9,17 +9,20 @@ import { getNextMovies } from "../api/movies.api";
 import { getNextSeries } from "../api/series.api";
 import { APIResponse, CommandBoxData, Movie, Series } from "../types";
 import { InfoType } from "../components/QueryFilter";
+import Script from "next/script";
+import createStructuredListItem from "../helpers/createStructuredListItem";
 
 const HomeWrapper = ({ children }: { children: ReactNode }) => (
   <CommandBoxContextProvider>{children}</CommandBoxContextProvider>
 );
 
 interface IFilterPage {
-  data: Array<Movie & Series>;
+  data: Array<Movie | Series>;
   info: InfoType;
+  baseURL: string;
 }
 
-const FilterPage: NextPage<IFilterPage> = ({ data: raw, info }) => {
+const FilterPage: NextPage<IFilterPage> = ({ data: raw, info, baseURL }) => {
   const data: Array<CommandBoxData> = raw.map((item) => ({
     duration: item.duration,
     poster: item.poster,
@@ -33,9 +36,54 @@ const FilterPage: NextPage<IFilterPage> = ({ data: raw, info }) => {
     <div className="min-h-screen bg-[#0d0d0f] relative z-10 px-10 md:px-14 ">
       <Head>
         <title>Filter Page - Next.js</title>
-        <meta name="description" content="Movieku create using Next.js" />
+        <meta name="description" content="Filter page of Movieku" />
+        <meta name="image" content={`${baseURL}/vercel.svg`} />
+        <meta name="url" content={`${baseURL}/filter`} />
+
+        <meta
+          property="og:title"
+          content="Filter Page - Next.js"
+          key="og:title"
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="Filter page of Movieku" />
+        <meta property="og:image" content={`${baseURL}/vercel.svg`} />
+        <meta property="og:url" content={`${baseURL}/filter`} />
+
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@novqigarrix" />
+        <meta
+          name="twitter:title"
+          content="Filter Page - Next.js"
+          key="twitter:title"
+        />
+        <meta name="twitter:description" content="Filter page of Movieku" />
+        <meta name="twitter:image" content={`${baseURL}/vercel.svg`} />
+
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Script id="filter-structured-data" type="application/ld+json">
+        {`{
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "itemListElement": [
+              ${raw
+                .map((value, index) =>
+                  createStructuredListItem({
+                    director: value.director ?? "",
+                    image: value.poster,
+                    index,
+                    name: value.title,
+                    rating: value.rating,
+                    release: value.release ?? "",
+                    slug: value.slug,
+                    status: value.status,
+                  })
+                )
+                .join(",")}
+            ]
+          }`}
+      </Script>
 
       <HomeWrapper>
         <Header />
@@ -47,6 +95,12 @@ const FilterPage: NextPage<IFilterPage> = ({ data: raw, info }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const {
+    req: {
+      headers: { host },
+    },
+  } = ctx;
+
   const query = ctx.resolvedUrl.split("?")[1] ?? "";
 
   let movies: APIResponse<Movie[]> | null = null;
@@ -68,6 +122,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         movies: movies?.info ?? null,
         series: series?.info ?? null,
       },
+      baseURL: host,
     },
   };
 };
