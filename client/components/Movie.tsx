@@ -193,6 +193,7 @@ const MovieComponent: FunctionComponent = () => {
                 allowFullScreen
                 width="100%"
                 className="min-h-screen"
+                title={`Trailer of ${movie.title}`}
               />
             </div>
           )}

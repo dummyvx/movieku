@@ -219,6 +219,7 @@ const OneSeriesComponent: FunctionComponent = () => {
                 allowFullScreen
                 width="100%"
                 className="min-h-screen"
+                title={`Trailer of ${seri.title}`}
               />
             </div>
           )}
