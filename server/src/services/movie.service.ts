@@ -10,7 +10,7 @@ import insertMany, { overrideOptions } from '../utils/insertMany';
 import MovieModel, { Movie } from '../models/movie.model';
 
 async function countAllData(filterQuery?: FilterQuery<Movie>): Promise<number> {
-    if (filterQuery) return MovieModel.find(filterQuery).count()
+    if (filterQuery) return await MovieModel.find(filterQuery).count()
     return MovieModel.count()
 }
 
