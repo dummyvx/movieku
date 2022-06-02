@@ -10,8 +10,8 @@ import insertMany, { overrideOptions } from '../utils/insertMany';
 import setupBrowser from '../utils/setupBrowser';
 
 async function countAllData(filterQuery?: FilterQuery<Series>): Promise<number> {
-    if (filterQuery) return await SeriesModel.find(filterQuery).count()
-    return await SeriesModel.count()
+    if (filterQuery) return SeriesModel.find(filterQuery).count()
+    return SeriesModel.count()
 }
 
 export type GetAllSeriesParams = {
@@ -26,10 +26,10 @@ async function getAll({ query, limit, skip, sort }: GetAllSeriesParams): Promise
     try {
 
         if (query) {
-            return await SeriesModel.find(query).limit(limit).skip(skip).lean().sort(sort);
+            return SeriesModel.find(query).limit(limit).skip(skip).lean().sort(sort);
         }
 
-        return await SeriesModel.find().limit(limit).skip(skip).lean().sort(sort);
+        return SeriesModel.find().limit(limit).skip(skip).lean().sort(sort);
 
     } catch (error: any) {
         logger.error(error.message);
@@ -249,11 +249,24 @@ async function updateSeriesStatus(): Promise<Array<Series> | string> {
 }
 
 async function getOneSeries(slug: string): Promise<Series | null> {
-    return await SeriesModel.findOne({ slug }).lean();
+    return SeriesModel.findOne({ slug }).lean();
 }
 
 async function searchSeries(keyword: string): Promise<Array<Series>> {
-    return await SeriesModel.find({ $text: { $search: keyword, $caseSensitive: false } }).limit(5).lean();
+    return SeriesModel.aggregate([
+        {
+            $search: {
+                index: 'default',
+                text: {
+                    query: keyword,
+                    path: ['title']
+                },
+                highlight: {
+                    path: ['title']
+                }
+            },
+        }
+    ])
 }
 
 export default {

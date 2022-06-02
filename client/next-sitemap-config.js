@@ -1,8 +1,8 @@
 /** @type {import('next-sitemap').IConfig} */
 
-const BASE_URL = process.env.NEXT_PBULIC_BASE_URL;
+const BASE_URL = "https://seriesku.netlify.app";
 
 module.exports = {
-  siteUrl: BASE_URL ?? "http://localhost:3000",
+  siteUrl: BASE_URL,
   generateRobotsTxt: true,
 };

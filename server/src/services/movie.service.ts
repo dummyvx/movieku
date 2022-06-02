@@ -10,8 +10,8 @@ import insertMany, { overrideOptions } from '../utils/insertMany';
 import MovieModel, { Movie } from '../models/movie.model';
 
 async function countAllData(filterQuery?: FilterQuery<Movie>): Promise<number> {
-    if (filterQuery) return await MovieModel.find(filterQuery).count()
-    return await MovieModel.count()
+    if (filterQuery) return MovieModel.find(filterQuery).count()
+    return MovieModel.count()
 }
 
 export type GetAllParams = {
@@ -25,10 +25,10 @@ async function getAll({ query, sort, limit, skip }: GetAllParams): Promise<Array
     try {
 
         if (query) {
-            return await MovieModel.find(query).limit(limit).skip(skip).sort(sort).lean();
+            return MovieModel.find(query).limit(limit).skip(skip).sort(sort).lean();
         }
 
-        return await MovieModel.find().limit(limit).skip(skip).sort(sort).lean();
+        return MovieModel.find().limit(limit).skip(skip).sort(sort).lean();
 
     } catch (error: any) {
         logger.error(error.message);
@@ -214,11 +214,24 @@ async function getMovieByQuery(query: FilterQuery<Movie>): Promise<Array<Movie> 
 }
 
 async function searchMovies(keyword: string): Promise<Array<Movie>> {
-    return await MovieModel.find({ $text: { $search: keyword, $caseSensitive: false } }).limit(5).lean();
+    return MovieModel.aggregate([
+        {
+            $search: {
+                index: 'default',
+                text: {
+                    query: keyword,
+                    path: ['title']
+                },
+                highlight: {
+                    path: ['title']
+                }
+            },
+        }
+    ])
 }
 
 async function getMovie(slug: string): Promise<Movie | null> {
-    return await MovieModel.findOne({ slug }).lean();
+    return MovieModel.findOne({ slug }).lean();
 }
 
 export default {
