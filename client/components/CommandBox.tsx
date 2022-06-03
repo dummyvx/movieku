@@ -9,7 +9,7 @@ import {
 import { useRouter } from "next/router";
 
 import { Dialog, Combobox } from "@headlessui/react";
-import { SearchIcon } from "@heroicons/react/outline";
+import { RefreshIcon, SearchIcon } from "@heroicons/react/outline";
 import { CommandBoxData } from "../types";
 import { CommandBoxContext } from "../contexts/CommandBoxContext";
 
@@ -73,16 +73,22 @@ const CommandBox: FunctionComponent<ICommandBox> = (props) => {
         value={undefined}
         className="bg-gray-900 shadow rounded-xl max-w-2xl mx-auto relative py-4 font-poppins divide-y space-y-3 divide-gray-800"
       >
-        <div className="flex items-center space-x-5 px-5">
-          <SearchIcon className="w-6 h-6 text-gray-300" />
-          <Combobox.Input
-            value={keyword}
-            onChange={(ev) => {
-              setKeyword(ev.target.value);
-            }}
-            placeholder="Search..."
-            className="w-full bg-transparent border-0 outline-none text-gray-300 placeholder:text-gray-400 font-medium text-base"
-          />
+        <div className="flex items-center space-x-5 justify-between px-5">
+          <div className="flex items-center space-x-5">
+            <SearchIcon className="w-6 h-6 text-gray-300" />
+            <Combobox.Input
+              value={keyword}
+              onChange={(ev) => {
+                setKeyword(ev.target.value);
+              }}
+              placeholder="Search..."
+              className="w-full bg-transparent border-0 outline-none text-gray-300 placeholder:text-gray-400 font-medium text-base"
+            />
+          </div>
+
+          {isLoading && (
+            <RefreshIcon className="w-5 h-5 text-gray-400 animate-spin" />
+          )}
         </div>
 
         {data.length > 0 && (
@@ -113,7 +119,7 @@ const CommandBox: FunctionComponent<ICommandBox> = (props) => {
                     </h5>
 
                     <code className="px-2 py-1 bg-gray-500 rounded-full text-gray-800 font-medium text-xs font-poppins">
-                      {item.duration}
+                      {item?.status ? "Series" : "Movies"}
                     </code>
                   </div>
                 )}

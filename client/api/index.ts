@@ -11,8 +11,22 @@ export const API = axios.create({ baseURL: `${SERVER_URL}/api/v1` });
 export async function search(keyword: string): Promise<Array<CommandBoxData> | null> {
     try {
 
-        const movies = await searchMovies(keyword);
-        const series = await searchSeries(keyword);
+        let series: Array<CommandBoxData> = []
+        let movies: Array<CommandBoxData> = []
+
+        if (keyword.includes("series")) {
+            const seriesResult = await searchSeries(keyword);
+            if (seriesResult) series = [...series, ...seriesResult];
+        } else if (keyword.includes("movies") || keyword.includes("movie")) {
+            const moviesResult = await searchSeries(keyword);
+            if (moviesResult) movies = [...movies, ...moviesResult];
+        } else {
+            const moviesResult = await searchMovies(keyword);
+            const seriesResult = await searchSeries(keyword);
+
+            if (moviesResult) movies = moviesResult
+            if (seriesResult) series = seriesResult
+        }
 
         if (!movies && !series) {
             console.log("No datas!");

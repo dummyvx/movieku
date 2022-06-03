@@ -264,7 +264,6 @@ export const searchMovies = async (req: Request, res: Response): Promise<Respons
     try {
 
         const movies = await movieService.searchMovies(q as string);
-
         const data = {
             data: movies,
             error: null

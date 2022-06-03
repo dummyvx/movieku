@@ -162,7 +162,7 @@ async function updateList(): Promise<Array<Movie> | { error: string }> {
         let newMovie: Array<Movie> = []
 
         for (const movie of results) {
-            const existedMovie = await MovieModel.findOne({ title: movie.title });
+            const existedMovie = await MovieModel.findOne({ title: movie.title, slug: movie.slug });
             if (!existedMovie) {
                 await MovieModel.create(movie);
                 newMovie.push(movie);
@@ -217,17 +217,23 @@ async function searchMovies(keyword: string): Promise<Array<Movie>> {
     return MovieModel.aggregate([
         {
             $search: {
-                index: 'default',
-                text: {
-                    query: keyword,
-                    path: ['title']
+                "index": "default", // optional, defaults to "default"
+                "search": { // may be ``search``, ``term``, ``compound``, or ``span``
+                    "query": keyword,
+                    "path": "title"
                 },
-                highlight: {
-                    path: ['title']
-                }
             },
+        },
+        {
+            $project: {
+                slug: 1,
+                title: 1,
+                poster: 1,
+                rating: 1,
+                duration: 1,
+            }
         }
-    ])
+    ]).limit(10);
 }
 
 async function getMovie(slug: string): Promise<Movie | null> {

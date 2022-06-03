@@ -88,13 +88,14 @@ const Header: FunctionComponent<IHeader> = () => {
   }, [debounceValue]);
 
   useEffect(() => {
-    setIsSearchLoading(true);
     if (query) {
+      setIsSearchLoading(true);
       search(query)
         .then((data) => {
           if (data) {
             setSearchedData(data);
             setQuery("");
+            setIsSearchLoading(false);
             return;
           }
           setIsSearchLoading(false);
