@@ -22,12 +22,14 @@ async function insertMany(label: LabelData, input: Array<Series | Movie>, atPage
                 for await (const series of input) {
                     index++
 
-                    const existedMovie = await SeriesModel.findOne({ title: series.title, slug: series.slug }).lean();
+                    const existedMovie = await SeriesModel.findOne({ slug: series.slug }).lean();
                     if (!existedMovie) {
                         logger.info(`INSERTING: ${series.title}`);
 
                         if (atPage) lastData = { page: atPage, index }
                         await SeriesModel.create(series);
+                    } else {
+                        await SeriesModel.updateOne({ slug: existedMovie.slug }, series);
                     }
 
                     overrideOptions('series', { page: 0, index: 0 })
@@ -57,6 +59,8 @@ async function insertMany(label: LabelData, input: Array<Series | Movie>, atPage
 
                         if (atPage) lastData = { page: atPage, index }
                         await MovieModel.create(movie);
+                    } else {
+                        await MovieModel.updateOne({ slug: existedMovie.slug }, movie);
                     }
 
                     overrideOptions('movies', { page: 0, index: 0 })

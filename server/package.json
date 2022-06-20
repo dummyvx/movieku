@@ -7,6 +7,7 @@
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "dev:test": "ts-node-dev --respawn --transpile-only src/test.ts",
     "start": "node build/index.js",
+    "add:sorter": "ts-node-dev --respawn --transpile-only src/utils/addTimestamp.ts",
     "build": "tsc"
   },
   "devDependencies": {

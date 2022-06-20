@@ -19,6 +19,7 @@ export type Movie = {
     rating: string;
     trailer: string | undefined;
     synopsis: string;
+    sorter: number;
 
     links: Array<MovieLink>
 }
@@ -76,6 +77,8 @@ const schema = new mongoose.Schema({
     country: String,
 
     quality: String,
+
+    sorter: Number
 
 }, { timestamps: true })
 

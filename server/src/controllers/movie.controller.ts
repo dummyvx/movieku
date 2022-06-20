@@ -14,6 +14,18 @@ type GetAllMoviesType = {
     limit?: string;
 }
 
+/**
+ * 
+ * @param req 
+ * @param res 
+ * @param queries 
+ * @param limit 
+ * @param currentPage 
+ * @param sort 
+ * @returns 
+ * 
+ * @description Paginate data
+ */
 const paginateData = async (req: Request, res: Response, queries: any, limit: number, currentPage: number, sort: GetAllParams['sort']) => {
     const BASE_URL = process.env.BASE_URL!
 
@@ -80,7 +92,7 @@ export const getAllMovies = async (req: Request<{}, {}, {}, GetAllMoviesType>, r
 
         switch (req.query.based) {
             case "newest":
-                return await paginateData(req, res, queries, limit, currentPage, { createdAt: 1 })
+                return await paginateData(req, res, queries, limit, currentPage, { date: -1, createdAt: -1 })
 
             case "trending":
                 return await paginateData(req, res, queries, limit, currentPage, { rating: -1 })
