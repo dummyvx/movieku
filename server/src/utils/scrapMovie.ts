@@ -34,7 +34,12 @@ const getEvaluate = async (page: Page): Promise<Movie> => {
         return { slug, title, poster, rating, synopsis, trailer, genres, release, stars, duration, director, country, quality, links }
     })
 
-    return result
+    const sorter = Date.now();
+
+    return {
+        ...result,
+        sorter
+    }
 }
 
 async function scrapMovie(page: Page, atPage: number, index: number = 0): Promise<ScrapMovieResult> {

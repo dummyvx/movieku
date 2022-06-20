@@ -19,6 +19,7 @@ export type Series = {
     trailer: string | undefined;
     director: string | undefined;
     synopsis: string;
+    sorter: number;
 
     links: Array<SeriesLink>
 }
@@ -75,6 +76,11 @@ const schema = new mongoose.Schema({
     links: {
         required: true,
         type: [{ episode: String, links: [{ quality: String, links: [{ provider: String, src: String }] }] }]
+    },
+
+    sorter: {
+        required: true,
+        type: Number
     },
 
     country: String,

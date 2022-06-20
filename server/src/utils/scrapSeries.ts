@@ -54,7 +54,12 @@ const getEvaluate = async (page: Page): Promise<Series> => {
         return { slug, title, poster, rating, synopsis, genres, release, stars, duration, country, quality, links, trailer, status, director }
     })
 
-    return result
+    const sorter = Date.now();
+
+    return {
+        ...result,
+        sorter
+    }
 }
 
 async function scrapSeries(page: Page, atPage: number, index: number = 0) {
