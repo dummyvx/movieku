@@ -92,7 +92,9 @@ export const getAllMovies = async (req: Request<{}, {}, {}, GetAllMoviesType>, r
 
         switch (req.query.based) {
             case "newest":
-                return await paginateData(req, res, queries, limit, currentPage, { sorter: 1 })
+                // The sorter is descending because, the more recent the movie, the higher the sorter number
+                // const sorter = Date.now()
+                return await paginateData(req, res, queries, limit, currentPage, { sorter: -1 })
 
             case "trending":
                 return await paginateData(req, res, queries, limit, currentPage, { rating: -1 })
